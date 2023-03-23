@@ -18,7 +18,7 @@ package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import java.time.LocalDateTime
 
-import play.api.libs.json.{Json, Format}
+import play.api.libs.json.{Json}
 import uk.gov.hmrc.play.json.Union
 
 import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
@@ -34,7 +34,7 @@ case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestam
 
 object ApplicationCommand {
   import uk.gov.hmrc.apiplatform.modules.common.domain.services.LocalDateTimeFormatter._
-  
+
   private implicit val addCollaboratorFormatter                        = Json.format[AddCollaborator]
   private implicit val removeCollaboratorFormatter                     = Json.format[RemoveCollaborator]
 
