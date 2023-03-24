@@ -16,8 +16,6 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import java.time.temporal.ChronoUnit
-
 import play.api.libs.json.Json
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
@@ -25,7 +23,7 @@ import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
 class RemoveCollaboratorSpec extends ApplicationCommandBaseSpec {
 
   "RemoveCollaborator" should {
-    val cmd = ApplicationCommands.RemoveCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+    val cmd = ApplicationCommands.RemoveCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator)
 
     "write to json (as a command)" in {
 
@@ -39,16 +37,15 @@ class RemoveCollaboratorSpec extends ApplicationCommandBaseSpec {
           "role"         -> "DEVELOPER",
           "userId"       -> s"${aUserId.value}"
         ),
-        "timestamp"    -> "2020-01-01T12:01:02.003Z",
         "updateType"   -> "removeCollaborator"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"2020-01-01T12:01:02.003","updateType":"removeCollaborator"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"updateType":"removeCollaborator"} """
 
-      Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd.copy(timestamp = cmd.timestamp.truncatedTo(ChronoUnit.MILLIS))
+      Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }
   }
 }

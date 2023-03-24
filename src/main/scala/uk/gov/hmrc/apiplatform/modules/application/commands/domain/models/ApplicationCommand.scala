@@ -16,22 +16,17 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import java.time.LocalDateTime
-
 import play.api.libs.json.Json
 import uk.gov.hmrc.play.json.Union
 
 import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
-sealed trait ApplicationCommand {
-  // TODO - remove this at earliest opportunity
-  def timestamp: LocalDateTime
-}
+sealed trait ApplicationCommand
 
 object ApplicationCommands {
-  case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)    extends ApplicationCommand
-  case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime) extends ApplicationCommand
+  case class AddCollaborator(actor: Actor, collaborator: Collaborator)    extends ApplicationCommand
+  case class RemoveCollaborator(actor: Actor, collaborator: Collaborator) extends ApplicationCommand
 }
 
 object ApplicationCommand {
