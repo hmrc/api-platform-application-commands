@@ -16,15 +16,15 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 import play.api.libs.json.Json
+import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 
-class CommandFailuresSpec extends HmrcSpec  {
+class CommandFailuresSpec extends HmrcSpec {
 
   def testCommandFailure(jsonText: String, commandFailure: CommandFailure) = {
     Json.parse(jsonText).as[CommandFailure] shouldBe commandFailure
-    
-    val jsonVal =  Json.toJson[CommandFailure](commandFailure)
+
+    val jsonVal = Json.toJson[CommandFailure](commandFailure)
     jsonVal.toString() shouldBe jsonText
   }
 
@@ -53,7 +53,7 @@ class CommandFailuresSpec extends HmrcSpec  {
       testCommandFailure("""{"failureType":"CollaboratorAlreadyExistsOnApp"}""", CommandFailures.CollaboratorAlreadyExistsOnApp)
     }
 
-    "handle json for GenericFailure" in { 
+    "handle json for GenericFailure" in {
       testCommandFailure("""{"describe":"someError","failureType":"GenericFailure"}""", CommandFailures.GenericFailure("someError"))
     }
 

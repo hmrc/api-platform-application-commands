@@ -16,9 +16,8 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Format, Json}
 import uk.gov.hmrc.play.json.Union
-import play.api.libs.json.Format
 
 sealed trait CommandFailure
 

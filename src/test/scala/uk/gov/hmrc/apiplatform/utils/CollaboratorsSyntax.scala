@@ -21,10 +21,11 @@ import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress
 import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
 
 trait CollaboratorsSyntax {
+
   implicit class CollaboratorSyntax(email: LaxEmailAddress) {
-    def asDeveloper() = Collaborators.Developer(userId = UserId.random, emailAddress = email)
+    def asDeveloper()     = Collaborators.Developer(userId = UserId.random, emailAddress = email)
     def asAdministrator() = Collaborators.Administrator(userId = UserId.random, emailAddress = email)
-  } 
+  }
 }
 
 object CollaboratorsSyntax extends CollaboratorsSyntax

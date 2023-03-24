@@ -16,18 +16,20 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
-import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
-import uk.gov.hmrc.apiplatform.utils.CollaboratorsSyntax._
 import java.time.LocalDateTime
-import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
+
+import uk.gov.hmrc.apiplatform.utils.CollaboratorsSyntax._
 import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 
+import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
+import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
+import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
+
 trait ApplicationCommandBaseSpec extends HmrcSpec {
-  val anActorEmail = "bob@example.com".toLaxEmail
-  val aCollaboratorEmail = "alice@example.com".toLaxEmail
-  val aUserId = UserId.random
-  val ThreeMillisFourNanos = 3 * 1000 * 1000 + 4
+  val anActorEmail                = "bob@example.com".toLaxEmail
+  val aCollaboratorEmail          = "alice@example.com".toLaxEmail
+  val aUserId                     = UserId.random
+  val ThreeMillisFourNanos        = 3 * 1000 * 1000 + 4
   val aCollaborator: Collaborator = aCollaboratorEmail.asDeveloper().copy(userId = aUserId)
-  val aTimestamp = LocalDateTime.of(2020,1,1,12,1,2,ThreeMillisFourNanos)
+  val aTimestamp                  = LocalDateTime.of(2020, 1, 1, 12, 1, 2, ThreeMillisFourNanos)
 }
