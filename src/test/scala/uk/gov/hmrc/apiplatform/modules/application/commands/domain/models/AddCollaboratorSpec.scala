@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
+package uk.gov.hmrc.apiplatform.modules.application.commands
+
+import java.time.temporal.ChronoUnit
 
 import play.api.libs.json.Json
 
@@ -24,7 +26,7 @@ import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
 
   "AddCollaborator" should {
-    val cmd = ApplicationCommands.AddCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator)
+    val cmd = ApplicationCommands.AddCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
 
     "write to json (as a command)" in {
 
@@ -38,15 +40,16 @@ class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
           "role"         -> "DEVELOPER",
           "userId"       -> s"${aUserId.value}"
         ),
+        "timestamp"    -> "2020-01-01T12:01:02.003Z",
         "updateType"   -> "addCollaborator"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"updateType":"addCollaborator"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"2020-01-01T12:01:02.003","updateType":"addCollaborator"} """
 
-      Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
+      Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd.copy(timestamp = cmd.timestamp.truncatedTo(ChronoUnit.MILLIS))
     }
   }
 }
