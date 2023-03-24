@@ -1,7 +1,11 @@
 
 # api-platform-application-commands
 
-This is a placeholder README.md for a new repository
+Library of Api Platform commands used for third party applications.
+
+## Running the tests
+
+    run_all_tests.sh
 
 ### License
 
