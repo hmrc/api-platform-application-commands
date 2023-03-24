@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-sbt +clean +coverage +test +coverageOff +coverageReport
+sbt clean coverage test coverageOff coverageReport

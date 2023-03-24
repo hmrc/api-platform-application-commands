@@ -29,10 +29,13 @@ sealed trait ApplicationCommand {
   def timestamp: LocalDateTime
 }
 
-case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                          extends ApplicationCommand
-case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                       extends ApplicationCommand
+object ApplicationCommands {
+  case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                          extends ApplicationCommand
+  case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                       extends ApplicationCommand
+}
 
 object ApplicationCommand {
+  import ApplicationCommands._
   import uk.gov.hmrc.apiplatform.modules.common.domain.services.LocalDateTimeFormatter._
 
   private implicit val addCollaboratorFormatter                        = Json.format[AddCollaborator]
