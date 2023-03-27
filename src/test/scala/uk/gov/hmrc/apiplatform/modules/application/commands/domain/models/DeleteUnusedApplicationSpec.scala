@@ -25,9 +25,7 @@ class DeleteUnusedApplicationSpec extends ApplicationCommandBaseSpec {
 
     "write to json (as a command)" in {
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"            -> Json.obj(
-          "jobId" -> "aJobId"
-        ),
+        "jobId" -> "aJobId",
         "timestamp"        -> s"$nowAsText",
         "authorisationKey" -> s"$anAuthorisationKey",
         "reasons"          -> s"$reasons",
@@ -37,7 +35,7 @@ class DeleteUnusedApplicationSpec extends ApplicationCommandBaseSpec {
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"jobId":"aJobId"},"timestamp":"$nowAsText","reasons":"$reasons","authorisationKey":"$anAuthorisationKey","updateType":"deleteUnusedApplication"} """
+        s""" {"jobId":"aJobId","timestamp":"$nowAsText","reasons":"$reasons","authorisationKey":"$anAuthorisationKey","updateType":"deleteUnusedApplication"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

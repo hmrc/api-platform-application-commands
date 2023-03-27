@@ -32,26 +32,26 @@ sealed trait ApplicationCommand {
 }
 
 sealed trait GatekeeperApplicationCommand extends ApplicationCommand {
-  def actor: Actors.GatekeeperUser
+  def gatekeeperUser: String
 }
 
 object ApplicationCommands {
   case class AddClientSecret(actor: Actors.AppCollaborator, clientSecret: ClientSecret, timestamp: LocalDateTime)                                         extends ApplicationCommand
   case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                          extends ApplicationCommand
-  case class ChangeProductionApplicationName(actor: Actors.GatekeeperUser, instigator: UserId, timestamp: LocalDateTime, newName: String)                 extends GatekeeperApplicationCommand
+  case class ChangeProductionApplicationName(gatekeeperUser: String, instigator: UserId, timestamp: LocalDateTime, newName: String)                 extends GatekeeperApplicationCommand
   case class ChangeProductionApplicationPrivacyPolicyLocation(instigator: UserId, timestamp: LocalDateTime, newLocation: PrivacyPolicyLocation)           extends ApplicationCommand
   case class ChangeProductionApplicationTermsAndConditionsLocation(instigator: UserId, timestamp: LocalDateTime, newLocation: TermsAndConditionsLocation) extends ApplicationCommand
   case class ChangeResponsibleIndividualToSelf(instigator: UserId, timestamp: LocalDateTime, name: String, email: LaxEmailAddress)                        extends ApplicationCommand
   case class ChangeResponsibleIndividualToOther(code: String, timestamp: LocalDateTime)                                                                   extends ApplicationCommand
-  case class DeclineApplicationApprovalRequest(actor: Actors.GatekeeperUser, reasons: String, timestamp: LocalDateTime)                                   extends GatekeeperApplicationCommand
+  case class DeclineApplicationApprovalRequest(gatekeeperUser: String, reasons: String, timestamp: LocalDateTime)                                   extends GatekeeperApplicationCommand
   case class DeclineResponsibleIndividual(code: String, timestamp: LocalDateTime)                                                                         extends ApplicationCommand
   case class DeclineResponsibleIndividualDidNotVerify(code: String, timestamp: LocalDateTime)                                                             extends ApplicationCommand
   case class DeleteApplicationByCollaborator(instigator: UserId, reasons: String, timestamp: LocalDateTime)                                               extends ApplicationCommand
 
-  case class DeleteApplicationByGatekeeper(actor: Actors.GatekeeperUser, requestedByEmailAddress: LaxEmailAddress, reasons: String, timestamp: LocalDateTime)
+  case class DeleteApplicationByGatekeeper(gatekeeperUser: String, requestedByEmailAddress: LaxEmailAddress, reasons: String, timestamp: LocalDateTime)
       extends GatekeeperApplicationCommand
   case class DeleteProductionCredentialsApplication(jobId: String, reasons: String, timestamp: LocalDateTime)                                           extends ApplicationCommand
-  case class DeleteUnusedApplication(actor: Actors.ScheduledJob, authorisationKey: String, reasons: String, timestamp: LocalDateTime)                   extends ApplicationCommand
+  case class DeleteUnusedApplication(jobId: String, authorisationKey: String, reasons: String, timestamp: LocalDateTime)                   extends ApplicationCommand
   case class RemoveClientSecret(actor: Actors.AppCollaborator, clientSecretId: ClientSecret.Id, timestamp: LocalDateTime)                               extends ApplicationCommand
   case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                     extends ApplicationCommand
   case class SubscribeToApi(actor: Actor, apiIdentifier: ApiIdentifier, timestamp: LocalDateTime)                                                       extends ApplicationCommand

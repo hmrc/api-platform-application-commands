@@ -21,12 +21,12 @@ import play.api.libs.json.Json
 class DeleteProductionCredentialsApplicationSpec extends ApplicationCommandBaseSpec {
 
   "DeleteProductionCredentialsApplication" should {
-    val cmd = ApplicationCommands.DeleteProductionCredentialsApplication(aScheduledJob.jobId, reasons, aTimestamp)
+    val cmd = ApplicationCommands.DeleteProductionCredentialsApplication(aScheduledJob, reasons, aTimestamp)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "jobId"      -> s"${aScheduledJob.jobId}",
+        "jobId"      -> s"${aScheduledJob}",
         "reasons"    -> s"$reasons",
         "timestamp"  -> s"$nowAsText",
         "updateType" -> "deleteProductionCredentialsApplication"
@@ -35,7 +35,7 @@ class DeleteProductionCredentialsApplicationSpec extends ApplicationCommandBaseS
 
     "read from json" in {
       val jsonText =
-        s""" {"jobId":"${aScheduledJob.jobId}","reasons":"$reasons","timestamp":"$nowAsText","updateType":"deleteProductionCredentialsApplication"} """
+        s""" {"jobId":"${aScheduledJob}","reasons":"$reasons","timestamp":"$nowAsText","updateType":"deleteProductionCredentialsApplication"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

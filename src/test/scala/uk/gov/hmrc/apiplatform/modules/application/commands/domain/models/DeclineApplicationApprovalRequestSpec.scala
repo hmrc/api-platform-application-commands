@@ -28,9 +28,7 @@ class DeclineApplicationApprovalRequestSpec extends ApplicationCommandBaseSpec {
 
     "write to json (as a command)" in {
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"      -> Json.obj(
-          "user" -> s"${aGatekeeperUser.user}"
-        ),
+        "gatekeeperUser" -> s"${aGatekeeperUser}",
         "reasons"    -> s"$reasons",
         "timestamp"  -> s"$nowAsText",
         "updateType" -> "declineApplicationApprovalRequest"
@@ -39,7 +37,7 @@ class DeclineApplicationApprovalRequestSpec extends ApplicationCommandBaseSpec {
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"user":"${aGatekeeperUser.user}"},"timestamp":"$nowAsText","reasons":"$reasons","updateType":"declineApplicationApprovalRequest"} """
+        s""" {"gatekeeperUser":"${aGatekeeperUser}","timestamp":"$nowAsText","reasons":"$reasons","updateType":"declineApplicationApprovalRequest"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

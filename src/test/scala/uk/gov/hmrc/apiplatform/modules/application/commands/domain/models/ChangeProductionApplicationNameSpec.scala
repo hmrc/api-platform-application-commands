@@ -30,9 +30,7 @@ class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"      -> Json.obj(
-          "user" -> s"${aGatekeeperUser.user}"
-        ),
+        "gatekeeperUser" -> s"${aGatekeeperUser}",
         "instigator" -> s"${anInstigator.value}",
         "timestamp"  -> s"$nowAsText",
         "newName"    -> s"$newName",
@@ -42,7 +40,7 @@ class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"user":"${aGatekeeperUser.user}"},"instigator":"${anInstigator.value}","timestamp":"$nowAsText","newName":"$newName","updateType":"changeProductionApplicationName"} """
+        s""" {"gatekeeperUser":"${aGatekeeperUser}","instigator":"${anInstigator.value}","timestamp":"$nowAsText","newName":"$newName","updateType":"changeProductionApplicationName"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

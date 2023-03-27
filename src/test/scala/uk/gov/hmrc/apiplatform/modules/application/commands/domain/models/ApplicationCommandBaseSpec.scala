@@ -21,7 +21,6 @@ import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 
 import uk.gov.hmrc.apiplatform.modules.apis.domain.models._
 import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 import uk.gov.hmrc.apiplatform.modules.common.utils.FixedClock
 import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
@@ -45,8 +44,8 @@ trait ApplicationCommandBaseSpec extends HmrcSpec with FixedClock {
 
   val anApiIdentifier = ApiIdentifier(ApiContext("context"), ApiVersion("version"))
 
-  val aScheduledJob      = Actors.ScheduledJob("aJobId")
+  val aScheduledJob      = "aJobId"
   val anAuthorisationKey = "1234"
 
-  val aGatekeeperUser = Actors.GatekeeperUser("Bob in SDST")
+  val aGatekeeperUser = "Bob in SDST"
 }
