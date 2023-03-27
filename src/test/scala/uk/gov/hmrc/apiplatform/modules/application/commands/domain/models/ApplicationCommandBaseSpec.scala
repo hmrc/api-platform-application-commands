@@ -16,20 +16,36 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import java.time.LocalDateTime
-
 import uk.gov.hmrc.apiplatform.utils.CollaboratorsSyntax._
 import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 
+import uk.gov.hmrc.apiplatform.modules.apis.domain.models._
 import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
+import uk.gov.hmrc.apiplatform.modules.common.utils.FixedClock
 import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
 
-trait ApplicationCommandBaseSpec extends HmrcSpec {
+trait ApplicationCommandBaseSpec extends HmrcSpec with FixedClock {
+  val aCode                       = "aCode"
+  val requesterName               = "IAmBobRequester"
+  val responsibleIndiviualName    = "IAmAliceTheRI"
   val anActorEmail                = "bob@example.com".toLaxEmail
   val aCollaboratorEmail          = "alice@example.com".toLaxEmail
   val aUserId                     = UserId.random
   val ThreeMillisFourNanos        = 3 * 1000 * 1000 + 4
   val aCollaborator: Collaborator = aCollaboratorEmail.asDeveloper().copy(userId = aUserId)
-  val aTimestamp                  = LocalDateTime.of(2020, 1, 1, 12, 1, 2, ThreeMillisFourNanos)
+  val aTimestamp                  = now
+  val reasons                     = "blahblah"
+
+  val aClientSecretId = ClientSecret.Id.random
+
+  val newPrivacyPolicyLocation = PrivacyPolicyLocations.InDesktopSoftware
+  val newTandCLocation         = TermsAndConditionsLocations.InDesktopSoftware
+
+  val anApiIdentifier = ApiIdentifier(ApiContext("context"), ApiVersion("version"))
+
+  val aScheduledJob      = "aJobId"
+  val anAuthorisationKey = "1234"
+
+  val aGatekeeperUser = "Bob in SDST"
 }

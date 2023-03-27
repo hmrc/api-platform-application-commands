@@ -18,33 +18,29 @@ package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import play.api.libs.json.Json
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
+import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
 
-class RemoveCollaboratorSpec extends ApplicationCommandBaseSpec {
+class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
+  val newName      = "Bobs App"
+  val anInstigator = UserId.random
 
-  "RemoveCollaborator" should {
-    val cmd = ApplicationCommands.RemoveCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "ChangeProductionApplicationName" should {
+    val cmd = ApplicationCommands.ChangeProductionApplicationName(aGatekeeperUser, anInstigator, aTimestamp, newName)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"        -> Json.obj(
-          "email"     -> "bob@example.com",
-          "actorType" -> "COLLABORATOR"
-        ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
-        ),
-        "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "removeCollaborator"
+        "gatekeeperUser" -> s"${aGatekeeperUser}",
+        "instigator" -> s"${anInstigator.value}",
+        "timestamp"  -> s"$nowAsText",
+        "newName"    -> s"$newName",
+        "updateType" -> "changeProductionApplicationName"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"removeCollaborator"} """
+        s""" {"gatekeeperUser":"${aGatekeeperUser}","instigator":"${anInstigator.value}","timestamp":"$nowAsText","newName":"$newName","updateType":"changeProductionApplicationName"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }
