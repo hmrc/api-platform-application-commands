@@ -33,14 +33,6 @@ trait FixedClock extends ClockNow {
 
   val clock: Clock = Clock.fixed(instant, utc)
 
-  // TODO - remove once the user takes ownership of this or reworks their needs
-  // def clockMinusHours(hours: Long) = {
-  //   val newInstant = LocalDateTime
-  //     .ofInstant(clock.instant(), utc)
-  //     .minusHours(hours)
-  //     .toInstant(utc)
-  //   Clock.fixed(newInstant, utc)
-  // }
 }
 
 object FixedClock extends FixedClock
