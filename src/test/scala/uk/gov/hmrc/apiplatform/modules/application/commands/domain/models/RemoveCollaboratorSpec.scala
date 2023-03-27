@@ -37,7 +37,7 @@ class RemoveCollaboratorSpec extends ApplicationCommandBaseSpec {
           "role"         -> "DEVELOPER",
           "userId"       -> s"${aUserId.value}"
         ),
-        "timestamp"    ->s"$nowAsText",
+        "timestamp"    -> s"$nowAsText",
         "updateType"   -> "removeCollaborator"
       )
     }

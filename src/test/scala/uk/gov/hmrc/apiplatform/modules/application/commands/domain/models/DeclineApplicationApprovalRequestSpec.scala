@@ -16,23 +16,24 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 import play.api.libs.json.Json
+
+import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 
 class DeclineApplicationApprovalRequestSpec extends ApplicationCommandBaseSpec {
   val requestedBy = "bob@example.com".toLaxEmail
-  
+
   "DeclineApplicationApprovalRequest" should {
     val cmd = ApplicationCommands.DeclineApplicationApprovalRequest(aGatekeeperUser, reasons, aTimestamp)
 
     "write to json (as a command)" in {
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"  ->  Json.obj(
+        "actor"      -> Json.obj(
           "user" -> s"${aGatekeeperUser.user}"
         ),
-        "reasons"      -> s"$reasons",
-        "timestamp"   -> s"$nowAsText",
-        "updateType"  -> "declineApplicationApprovalRequest"
+        "reasons"    -> s"$reasons",
+        "timestamp"  -> s"$nowAsText",
+        "updateType" -> "declineApplicationApprovalRequest"
       )
     }
 

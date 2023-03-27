@@ -22,8 +22,8 @@ import uk.gov.hmrc.apiplatform.modules.application.commands.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
 class UpdateRedirectUrisSpec extends ApplicationCommandBaseSpec {
-  val oldUris = List("a","b","c")
-  val newUris = List("a","b","x")
+  val oldUris = List("a", "b", "c")
+  val newUris = List("a", "b", "x")
 
   "UpdateRedirectUris" should {
     val cmd = ApplicationCommands.UpdateRedirectUris(Actors.AppCollaborator(anActorEmail), oldUris, newUris, aTimestamp)
@@ -31,14 +31,14 @@ class UpdateRedirectUrisSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"        -> Json.obj(
+        "actor"           -> Json.obj(
           "email"     -> "bob@example.com",
           "actorType" -> "COLLABORATOR"
         ),
-        "oldRedirectUris" -> Json.arr("a","b","c"),
-        "newRedirectUris" -> Json.arr("a","b","x"),
-        "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "updateRedirectUris"
+        "oldRedirectUris" -> Json.arr("a", "b", "c"),
+        "newRedirectUris" -> Json.arr("a", "b", "x"),
+        "timestamp"       -> s"$nowAsText",
+        "updateType"      -> "updateRedirectUris"
       )
     }
 

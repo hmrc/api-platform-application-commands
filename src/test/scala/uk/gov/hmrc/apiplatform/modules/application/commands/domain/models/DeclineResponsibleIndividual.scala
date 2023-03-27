@@ -26,9 +26,9 @@ class DeclineResponsibleIndividualSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "code"  ->  s"$aCode",
-        "timestamp"   -> s"$nowAsText",
-        "updateType"  -> "declineResponsibleIndividual"
+        "code"       -> s"$aCode",
+        "timestamp"  -> s"$nowAsText",
+        "updateType" -> "declineResponsibleIndividual"
       )
     }
 

@@ -17,10 +17,11 @@
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import play.api.libs.json.Json
+
 import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
 
 class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
-  val newName = "Bobs App"
+  val newName      = "Bobs App"
   val anInstigator = UserId.random
 
   "ChangeProductionApplicationName" should {
@@ -29,13 +30,13 @@ class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"  ->  Json.obj(
+        "actor"      -> Json.obj(
           "user" -> s"${aGatekeeperUser.user}"
         ),
-        "instigator"  ->  s"${anInstigator.value}",
-        "timestamp"   -> s"$nowAsText",
-        "newName" -> s"$newName",
-        "updateType"  -> "changeProductionApplicationName"
+        "instigator" -> s"${anInstigator.value}",
+        "timestamp"  -> s"$nowAsText",
+        "newName"    -> s"$newName",
+        "updateType" -> "changeProductionApplicationName"
       )
     }
 

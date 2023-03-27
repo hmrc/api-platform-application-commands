@@ -16,24 +16,25 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 import play.api.libs.json.Json
+
+import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 
 class DeleteApplicationByGatekeeperSpec extends ApplicationCommandBaseSpec {
   val requestedBy = "bob@example.com".toLaxEmail
-  
+
   "DeleteApplicationByGatekeeper" should {
     val cmd = ApplicationCommands.DeleteApplicationByGatekeeper(aGatekeeperUser, requestedBy, reasons, aTimestamp)
 
     "write to json (as a command)" in {
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"  ->  Json.obj(
+        "actor"                   -> Json.obj(
           "user" -> s"${aGatekeeperUser.user}"
         ),
         "requestedByEmailAddress" -> s"${requestedBy.text}",
-        "reasons"      -> s"$reasons",
-        "timestamp"   -> s"$nowAsText",
-        "updateType"  -> "deleteApplicationByGatekeeper"
+        "reasons"                 -> s"$reasons",
+        "timestamp"               -> s"$nowAsText",
+        "updateType"              -> "deleteApplicationByGatekeeper"
       )
     }
 

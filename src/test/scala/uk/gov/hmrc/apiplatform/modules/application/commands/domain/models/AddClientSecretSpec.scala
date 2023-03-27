@@ -16,15 +16,14 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands
 
-
 import play.api.libs.json.Json
 
 import uk.gov.hmrc.apiplatform.modules.application.commands.domain.models._
-import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 import uk.gov.hmrc.apiplatform.modules.applications.domain.models.ClientSecret
+import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
 class AddClientSecretSpec extends ApplicationCommandBaseSpec {
-  val aClientSecret = ClientSecret("aName",aTimestamp, None, ClientSecret.Id.random, "blahblahsecret")
+  val aClientSecret = ClientSecret("aName", aTimestamp, None, ClientSecret.Id.random, "blahblahsecret")
 
   "AddClientSecret" should {
     val cmd = ApplicationCommands.AddClientSecret(Actors.AppCollaborator(anActorEmail), aClientSecret, aTimestamp)
@@ -33,12 +32,12 @@ class AddClientSecretSpec extends ApplicationCommandBaseSpec {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
         "actor"        -> Json.obj(
-          "email"     -> "bob@example.com"
+          "email" -> "bob@example.com"
         ),
         "clientSecret" -> Json.obj(
-          "name"       -> "aName",
-          "createdOn"  -> s"$nowAsText",
-          "id"       -> s"${aClientSecret.id.value}",
+          "name"         -> "aName",
+          "createdOn"    -> s"$nowAsText",
+          "id"           -> s"${aClientSecret.id.value}",
           "hashedSecret" -> "blahblahsecret"
         ),
         "timestamp"    -> s"$nowAsText",

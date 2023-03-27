@@ -26,10 +26,10 @@ class ChangeProductionApplicationPrivacyPolicyLocationSpec extends ApplicationCo
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "instigator"  ->  s"${aUserId.value}",
+        "instigator"  -> s"${aUserId.value}",
         "timestamp"   -> s"$nowAsText",
         "newLocation" -> Json.obj(
-          "privacyPolicyType" -> "inDesktop",
+          "privacyPolicyType" -> "inDesktop"
         ),
         "updateType"  -> "changeProductionApplicationPrivacyPolicyLocation"
       )

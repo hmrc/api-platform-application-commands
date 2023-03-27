@@ -16,16 +16,15 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-
 import uk.gov.hmrc.apiplatform.utils.CollaboratorsSyntax._
 import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 
-import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
-import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
-import uk.gov.hmrc.apiplatform.modules.common.utils.FixedClock
 import uk.gov.hmrc.apiplatform.modules.apis.domain.models._
+import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
+import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
+import uk.gov.hmrc.apiplatform.modules.common.utils.FixedClock
+import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
 
 trait ApplicationCommandBaseSpec extends HmrcSpec with FixedClock {
   val aCode                       = "aCode"
@@ -37,16 +36,16 @@ trait ApplicationCommandBaseSpec extends HmrcSpec with FixedClock {
   val ThreeMillisFourNanos        = 3 * 1000 * 1000 + 4
   val aCollaborator: Collaborator = aCollaboratorEmail.asDeveloper().copy(userId = aUserId)
   val aTimestamp                  = now
-  val reasons = "blahblah"
+  val reasons                     = "blahblah"
 
-  val aClientSecretId             = ClientSecret.Id.random
-  
-  val newPrivacyPolicyLocation    = PrivacyPolicyLocations.InDesktopSoftware
-  val newTandCLocation            = TermsAndConditionsLocations.InDesktopSoftware
+  val aClientSecretId = ClientSecret.Id.random
 
-  val anApiIdentifier             = ApiIdentifier(ApiContext("context"),ApiVersion("version"))
+  val newPrivacyPolicyLocation = PrivacyPolicyLocations.InDesktopSoftware
+  val newTandCLocation         = TermsAndConditionsLocations.InDesktopSoftware
 
-  val aScheduledJob               = Actors.ScheduledJob("aJobId")
+  val anApiIdentifier = ApiIdentifier(ApiContext("context"), ApiVersion("version"))
+
+  val aScheduledJob      = Actors.ScheduledJob("aJobId")
   val anAuthorisationKey = "1234"
 
   val aGatekeeperUser = Actors.GatekeeperUser("Bob in SDST")

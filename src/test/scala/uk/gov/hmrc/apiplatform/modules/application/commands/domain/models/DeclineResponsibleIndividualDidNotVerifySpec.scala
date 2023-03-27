@@ -26,9 +26,9 @@ class DeclineResponsibleIndividualDidNotVerifySpec extends ApplicationCommandBas
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "code"  ->  s"$aCode",
-        "timestamp"   -> s"$nowAsText",
-        "updateType"  -> "declineResponsibleIndividualDidNotVerify"
+        "code"       -> s"$aCode",
+        "timestamp"  -> s"$nowAsText",
+        "updateType" -> "declineResponsibleIndividualDidNotVerify"
       )
     }
 

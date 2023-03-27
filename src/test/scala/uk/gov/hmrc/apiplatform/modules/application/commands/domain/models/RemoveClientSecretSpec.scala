@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-
 import play.api.libs.json.Json
 
 import uk.gov.hmrc.apiplatform.modules.application.commands.domain.models._
@@ -30,12 +29,12 @@ class RemoveClientSecretSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"        -> Json.obj(
-          "email"     -> "bob@example.com"
+        "actor"          -> Json.obj(
+          "email" -> "bob@example.com"
         ),
         "clientSecretId" -> s"${aClientSecretId.value}",
-        "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "removeClientSecret"
+        "timestamp"      -> s"$nowAsText",
+        "updateType"     -> "removeClientSecret"
       )
     }
 

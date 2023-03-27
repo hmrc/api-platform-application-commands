@@ -26,10 +26,10 @@ class ChangeProductionApplicationTermsAndConditionsLocationSpec extends Applicat
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "instigator"  ->  s"${aUserId.value}",
+        "instigator"  -> s"${aUserId.value}",
         "timestamp"   -> s"$nowAsText",
         "newLocation" -> Json.obj(
-          "termsAndConditionsType" -> "inDesktop",
+          "termsAndConditionsType" -> "inDesktop"
         ),
         "updateType"  -> "changeProductionApplicationTermsAndConditionsLocation"
       )

@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
-
 import play.api.libs.json.Json
 
 class ChangeResponsibleIndividualToOtherSpec extends ApplicationCommandBaseSpec {
@@ -27,9 +26,9 @@ class ChangeResponsibleIndividualToOtherSpec extends ApplicationCommandBaseSpec 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "code"  ->  s"$aCode",
-        "timestamp"   -> s"$nowAsText",
-        "updateType"  -> "changeResponsibleIndividualToOther"
+        "code"       -> s"$aCode",
+        "timestamp"  -> s"$nowAsText",
+        "updateType" -> "changeResponsibleIndividualToOther"
       )
     }
 

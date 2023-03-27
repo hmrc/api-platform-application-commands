@@ -21,17 +21,17 @@ import play.api.libs.json.Json
 class VerifyResponsibleIndividualSpec extends ApplicationCommandBaseSpec {
 
   "VerifyResponsibleIndividual" should {
-    val cmd = ApplicationCommands.VerifyResponsibleIndividual(aUserId,aTimestamp,requesterName, responsibleIndiviualName, aCollaboratorEmail)
+    val cmd = ApplicationCommands.VerifyResponsibleIndividual(aUserId, aTimestamp, requesterName, responsibleIndiviualName, aCollaboratorEmail)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "instigator"  ->  s"${aUserId.value}",
-        "timestamp"   -> s"$nowAsText",
+        "instigator"    -> s"${aUserId.value}",
+        "timestamp"     -> s"$nowAsText",
         "requesterName" -> s"$requesterName",
-        "riName"      -> s"$responsibleIndiviualName",
-        "riEmail"     -> s"${aCollaboratorEmail.text}",
-        "updateType"  -> "verifyResponsibleIndividual"
+        "riName"        -> s"$responsibleIndiviualName",
+        "riEmail"       -> s"${aCollaboratorEmail.text}",
+        "updateType"    -> "verifyResponsibleIndividual"
       )
     }
 

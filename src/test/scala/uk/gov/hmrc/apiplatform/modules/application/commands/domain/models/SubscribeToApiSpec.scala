@@ -29,16 +29,16 @@ class SubscribeToApiSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"        -> Json.obj(
+        "actor"         -> Json.obj(
           "email"     -> "bob@example.com",
           "actorType" -> "COLLABORATOR"
         ),
         "apiIdentifier" -> Json.obj(
           "context" -> "context",
-          "version"       -> "version"
+          "version" -> "version"
         ),
-        "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "subscribeToApi"
+        "timestamp"     -> s"$nowAsText",
+        "updateType"    -> "subscribeToApi"
       )
     }
 

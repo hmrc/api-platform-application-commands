@@ -21,10 +21,10 @@ import java.time.LocalDateTime
 import play.api.libs.json.Json
 import uk.gov.hmrc.play.json.Union
 
+import uk.gov.hmrc.apiplatform.modules.apis.domain.models.ApiIdentifier
 import uk.gov.hmrc.apiplatform.modules.applications.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
-import uk.gov.hmrc.apiplatform.modules.apis.domain.models.ApiIdentifier
 
 sealed trait ApplicationCommand {
   // TODO - remove this at earliest opportunity
@@ -37,52 +37,53 @@ sealed trait GatekeeperApplicationCommand extends ApplicationCommand {
 
 object ApplicationCommands {
   case class AddClientSecret(actor: Actors.AppCollaborator, clientSecret: ClientSecret, timestamp: LocalDateTime)                                         extends ApplicationCommand
-  case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)    extends ApplicationCommand
-  case class ChangeProductionApplicationName(actor: Actors.GatekeeperUser, instigator: UserId, timestamp: LocalDateTime, newName: String) extends GatekeeperApplicationCommand
+  case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                          extends ApplicationCommand
+  case class ChangeProductionApplicationName(actor: Actors.GatekeeperUser, instigator: UserId, timestamp: LocalDateTime, newName: String)                 extends GatekeeperApplicationCommand
   case class ChangeProductionApplicationPrivacyPolicyLocation(instigator: UserId, timestamp: LocalDateTime, newLocation: PrivacyPolicyLocation)           extends ApplicationCommand
   case class ChangeProductionApplicationTermsAndConditionsLocation(instigator: UserId, timestamp: LocalDateTime, newLocation: TermsAndConditionsLocation) extends ApplicationCommand
   case class ChangeResponsibleIndividualToSelf(instigator: UserId, timestamp: LocalDateTime, name: String, email: LaxEmailAddress)                        extends ApplicationCommand
   case class ChangeResponsibleIndividualToOther(code: String, timestamp: LocalDateTime)                                                                   extends ApplicationCommand
-  case class DeclineApplicationApprovalRequest(actor: Actors.GatekeeperUser, reasons: String, timestamp: LocalDateTime)                   extends GatekeeperApplicationCommand
+  case class DeclineApplicationApprovalRequest(actor: Actors.GatekeeperUser, reasons: String, timestamp: LocalDateTime)                                   extends GatekeeperApplicationCommand
   case class DeclineResponsibleIndividual(code: String, timestamp: LocalDateTime)                                                                         extends ApplicationCommand
   case class DeclineResponsibleIndividualDidNotVerify(code: String, timestamp: LocalDateTime)                                                             extends ApplicationCommand
   case class DeleteApplicationByCollaborator(instigator: UserId, reasons: String, timestamp: LocalDateTime)                                               extends ApplicationCommand
-  case class DeleteApplicationByGatekeeper(actor: Actors.GatekeeperUser, requestedByEmailAddress: LaxEmailAddress, reasons: String, timestamp: LocalDateTime) extends GatekeeperApplicationCommand
-  case class DeleteProductionCredentialsApplication(jobId: String, reasons: String, timestamp: LocalDateTime)                                             extends ApplicationCommand
-  case class DeleteUnusedApplication(actor: Actors.ScheduledJob, authorisationKey: String, reasons: String, timestamp: LocalDateTime)                                  extends ApplicationCommand
-  case class RemoveClientSecret(actor: Actors.AppCollaborator, clientSecretId: ClientSecret.Id, timestamp: LocalDateTime)                                          extends ApplicationCommand
-  case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime) extends ApplicationCommand
-  case class SubscribeToApi(actor: Actor, apiIdentifier: ApiIdentifier, timestamp: LocalDateTime)                                                         extends ApplicationCommand
-  case class UnsubscribeFromApi(actor: Actor, apiIdentifier: ApiIdentifier, timestamp: LocalDateTime)                                                     extends ApplicationCommand
-  case class UpdateRedirectUris(actor: Actor, oldRedirectUris: List[String], newRedirectUris: List[String], timestamp: LocalDateTime)                     extends ApplicationCommand
-  case class VerifyResponsibleIndividual(instigator: UserId, timestamp: LocalDateTime, requesterName: String, riName: String, riEmail: LaxEmailAddress)   extends ApplicationCommand
+
+  case class DeleteApplicationByGatekeeper(actor: Actors.GatekeeperUser, requestedByEmailAddress: LaxEmailAddress, reasons: String, timestamp: LocalDateTime)
+      extends GatekeeperApplicationCommand
+  case class DeleteProductionCredentialsApplication(jobId: String, reasons: String, timestamp: LocalDateTime)                                           extends ApplicationCommand
+  case class DeleteUnusedApplication(actor: Actors.ScheduledJob, authorisationKey: String, reasons: String, timestamp: LocalDateTime)                   extends ApplicationCommand
+  case class RemoveClientSecret(actor: Actors.AppCollaborator, clientSecretId: ClientSecret.Id, timestamp: LocalDateTime)                               extends ApplicationCommand
+  case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                     extends ApplicationCommand
+  case class SubscribeToApi(actor: Actor, apiIdentifier: ApiIdentifier, timestamp: LocalDateTime)                                                       extends ApplicationCommand
+  case class UnsubscribeFromApi(actor: Actor, apiIdentifier: ApiIdentifier, timestamp: LocalDateTime)                                                   extends ApplicationCommand
+  case class UpdateRedirectUris(actor: Actor, oldRedirectUris: List[String], newRedirectUris: List[String], timestamp: LocalDateTime)                   extends ApplicationCommand
+  case class VerifyResponsibleIndividual(instigator: UserId, timestamp: LocalDateTime, requesterName: String, riName: String, riEmail: LaxEmailAddress) extends ApplicationCommand
 }
 
 object ApplicationCommand {
   import ApplicationCommands._
   import uk.gov.hmrc.apiplatform.modules.common.domain.services.LocalDateTimeFormatter._
 
-  private implicit val addCollaboratorFormatter    = Json.format[AddCollaborator]
-  private implicit val removeCollaboratorFormatter = Json.format[RemoveCollaborator]
-  private implicit val addClientSecretFormatter    = Json.format[AddClientSecret]
-  private implicit val removeClientSecretFormatter    = Json.format[RemoveClientSecret]
-  private implicit val changeProductionApplicationNameFormatter           = Json.format[ChangeProductionApplicationName]
-  private implicit val changePrivacyPolicyLocationFormatter               = Json.format[ChangeProductionApplicationPrivacyPolicyLocation]
-  private implicit val changeTermsAndConditionsLocationFormatter          = Json.format[ChangeProductionApplicationTermsAndConditionsLocation]
-  private implicit val changeResponsibleIndividualToSelfFormatter         = Json.format[ChangeResponsibleIndividualToSelf]
-  private implicit val changeResponsibleIndividualToOtherFormatter        = Json.format[ChangeResponsibleIndividualToOther]
-  private implicit val verifyResponsibleIndividualFormatter               = Json.format[VerifyResponsibleIndividual]
-  private implicit val declineApplicationApprovalRequestFormatter         = Json.format[DeclineApplicationApprovalRequest]
-  private implicit val declineResponsibleIndividualFormatter              = Json.format[DeclineResponsibleIndividual]
-  private implicit val declineResponsibleIndividualDidNotVerifyFormatter  = Json.format[DeclineResponsibleIndividualDidNotVerify]
-  private implicit val deleteApplicationByCollaboratorFormatter           = Json.format[DeleteApplicationByCollaborator]
-  private implicit val deleteApplicationByGatekeeperFormatter             = Json.format[DeleteApplicationByGatekeeper]
-  private implicit val deleteUnusedApplicationFormatter                   = Json.format[DeleteUnusedApplication]
-  private implicit val deleteProductionCredentialsApplicationFormatter    = Json.format[DeleteProductionCredentialsApplication]
-  private implicit val subscribeToApiFormatter                            = Json.format[SubscribeToApi]
-  private implicit val unsubscribeFromApiFormatter                        = Json.format[UnsubscribeFromApi]
-  private implicit val UpdateRedirectUrisFormatter                        = Json.format[UpdateRedirectUris]
-
+  implicit private val addCollaboratorFormatter                          = Json.format[AddCollaborator]
+  implicit private val removeCollaboratorFormatter                       = Json.format[RemoveCollaborator]
+  implicit private val addClientSecretFormatter                          = Json.format[AddClientSecret]
+  implicit private val removeClientSecretFormatter                       = Json.format[RemoveClientSecret]
+  implicit private val changeProductionApplicationNameFormatter          = Json.format[ChangeProductionApplicationName]
+  implicit private val changePrivacyPolicyLocationFormatter              = Json.format[ChangeProductionApplicationPrivacyPolicyLocation]
+  implicit private val changeTermsAndConditionsLocationFormatter         = Json.format[ChangeProductionApplicationTermsAndConditionsLocation]
+  implicit private val changeResponsibleIndividualToSelfFormatter        = Json.format[ChangeResponsibleIndividualToSelf]
+  implicit private val changeResponsibleIndividualToOtherFormatter       = Json.format[ChangeResponsibleIndividualToOther]
+  implicit private val verifyResponsibleIndividualFormatter              = Json.format[VerifyResponsibleIndividual]
+  implicit private val declineApplicationApprovalRequestFormatter        = Json.format[DeclineApplicationApprovalRequest]
+  implicit private val declineResponsibleIndividualFormatter             = Json.format[DeclineResponsibleIndividual]
+  implicit private val declineResponsibleIndividualDidNotVerifyFormatter = Json.format[DeclineResponsibleIndividualDidNotVerify]
+  implicit private val deleteApplicationByCollaboratorFormatter          = Json.format[DeleteApplicationByCollaborator]
+  implicit private val deleteApplicationByGatekeeperFormatter            = Json.format[DeleteApplicationByGatekeeper]
+  implicit private val deleteUnusedApplicationFormatter                  = Json.format[DeleteUnusedApplication]
+  implicit private val deleteProductionCredentialsApplicationFormatter   = Json.format[DeleteProductionCredentialsApplication]
+  implicit private val subscribeToApiFormatter                           = Json.format[SubscribeToApi]
+  implicit private val unsubscribeFromApiFormatter                       = Json.format[UnsubscribeFromApi]
+  implicit private val UpdateRedirectUrisFormatter                       = Json.format[UpdateRedirectUris]
 
   implicit val formatter = Union.from[ApplicationCommand]("updateType")
     .and[AddCollaborator]("addCollaborator")
@@ -108,8 +109,7 @@ object ApplicationCommand {
     .format
 }
 
-
-/* 
+/*
 --- Used in TPDFE ---
   *** Extends ApplicationUpdate ***
   ChangeProductionApplicationPrivacyPolicyLocation
@@ -125,7 +125,7 @@ object ApplicationCommand {
   AddCollaborator
   RemoveCollaborator
 
---- Used in GKFE--- 
+--- Used in GKFE---
   *** Extends ApplicationCommand ***
   AddCollaborator
   RemoveCollaborator
@@ -137,7 +137,7 @@ object ApplicationCommand {
 
 --- Used in GKAFE ---
   *** extends GatekeeperApplicationUpdate ***
-  DeclineApplicationApprovalRequest 
+  DeclineApplicationApprovalRequest
 
 --- Used in APJ ---
   ***  extends ApplicationUpdate ***
@@ -162,4 +162,4 @@ object ApplicationCommand {
 
 
 
-*/
+ */

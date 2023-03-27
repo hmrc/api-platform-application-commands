@@ -20,17 +20,16 @@ import play.api.libs.json.Json
 
 class DeleteApplicationByCollaboratorSpec extends ApplicationCommandBaseSpec {
 
-  
   "DeleteApplicationByCollaborator" should {
     val cmd = ApplicationCommands.DeleteApplicationByCollaborator(aUserId, reasons, aTimestamp)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "instigator"  ->  s"${aUserId.asText}",
-        "timestamp"   -> s"$nowAsText",
-        "reasons"      -> s"$reasons",
-        "updateType"  -> "deleteApplicationByCollaborator"
+        "instigator" -> s"${aUserId.asText}",
+        "timestamp"  -> s"$nowAsText",
+        "reasons"    -> s"$reasons",
+        "updateType" -> "deleteApplicationByCollaborator"
       )
     }
 
