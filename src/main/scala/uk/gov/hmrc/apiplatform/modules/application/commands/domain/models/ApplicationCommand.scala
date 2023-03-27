@@ -36,7 +36,7 @@ sealed trait GatekeeperApplicationCommand extends ApplicationCommand {
 }
 
 object ApplicationCommands {
-  case class AddClientSecret(actor: Actors.AppCollaborator, clientSecret: ClientSecret, timestamp: LocalDateTime)                                         extends ApplicationCommand
+  case class AddClientSecret(actor: Actors.AppCollaborator, clientSecret: ClientSecretDetails, timestamp: LocalDateTime)                                         extends ApplicationCommand
   case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                          extends ApplicationCommand
   case class ChangeProductionApplicationName(gatekeeperUser: String, instigator: UserId, timestamp: LocalDateTime, newName: String)                 extends GatekeeperApplicationCommand
   case class ChangeProductionApplicationPrivacyPolicyLocation(instigator: UserId, timestamp: LocalDateTime, newLocation: PrivacyPolicyLocation)           extends ApplicationCommand
