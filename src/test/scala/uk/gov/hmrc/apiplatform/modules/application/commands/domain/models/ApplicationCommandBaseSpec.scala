@@ -48,4 +48,6 @@ trait ApplicationCommandBaseSpec extends HmrcSpec with FixedClock {
 
   val aScheduledJob               = Actors.ScheduledJob("aJobId")
   val anAuthorisationKey = "1234"
+
+  val aGatekeeperUser = Actors.GatekeeperUser("Bob in SDST")
 }

@@ -18,10 +18,10 @@ package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import play.api.libs.json.Json
 
-class ChangeProductionApplicationPrivacyPolicyLocationSpec extends ApplicationCommandBaseSpec {
+class ChangeProductionApplicationTermsAndConditionsLocationSpec extends ApplicationCommandBaseSpec {
 
-  "ChangeProductionApplicationPrivacyPolicyLocation" should {
-    val cmd = ApplicationCommands.ChangeProductionApplicationPrivacyPolicyLocation(aUserId, aTimestamp, newPrivacyPolicyLocation)
+  "ChangeProductionApplicationTermsAndConditionsLocation" should {
+    val cmd = ApplicationCommands.ChangeProductionApplicationTermsAndConditionsLocation(aUserId, aTimestamp, newTandCLocation)
 
     "write to json (as a command)" in {
 
@@ -29,15 +29,15 @@ class ChangeProductionApplicationPrivacyPolicyLocationSpec extends ApplicationCo
         "instigator"  ->  s"${aUserId.value}",
         "timestamp"   -> s"$nowAsText",
         "newLocation" -> Json.obj(
-          "privacyPolicyType" -> "inDesktop",
+          "termsAndConditionsType" -> "inDesktop",
         ),
-        "updateType"  -> "changeProductionApplicationPrivacyPolicyLocation"
+        "updateType"  -> "changeProductionApplicationTermsAndConditionsLocation"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"instigator":"${aUserId.value}","timestamp":"$nowAsText","newLocation":{"privacyPolicyType":"inDesktop"},"updateType":"changeProductionApplicationPrivacyPolicyLocation"} """
+        s""" {"instigator":"${aUserId.value}","timestamp":"$nowAsText","newLocation":{"termsAndConditionsType":"inDesktop"},"updateType":"changeProductionApplicationTermsAndConditionsLocation"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

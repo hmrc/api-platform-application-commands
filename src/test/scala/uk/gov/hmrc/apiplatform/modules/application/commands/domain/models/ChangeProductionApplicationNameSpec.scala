@@ -17,27 +17,31 @@
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import play.api.libs.json.Json
+import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
 
-class ChangeProductionApplicationPrivacyPolicyLocationSpec extends ApplicationCommandBaseSpec {
+class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
+  val newName = "Bobs App"
+  val anInstigator = UserId.random
 
-  "ChangeProductionApplicationPrivacyPolicyLocation" should {
-    val cmd = ApplicationCommands.ChangeProductionApplicationPrivacyPolicyLocation(aUserId, aTimestamp, newPrivacyPolicyLocation)
+  "ChangeProductionApplicationName" should {
+    val cmd = ApplicationCommands.ChangeProductionApplicationName(aGatekeeperUser, anInstigator, aTimestamp, newName)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "instigator"  ->  s"${aUserId.value}",
-        "timestamp"   -> s"$nowAsText",
-        "newLocation" -> Json.obj(
-          "privacyPolicyType" -> "inDesktop",
+        "actor"  ->  Json.obj(
+          "user" -> s"${aGatekeeperUser.user}"
         ),
-        "updateType"  -> "changeProductionApplicationPrivacyPolicyLocation"
+        "instigator"  ->  s"${anInstigator.value}",
+        "timestamp"   -> s"$nowAsText",
+        "newName" -> s"$newName",
+        "updateType"  -> "changeProductionApplicationName"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"instigator":"${aUserId.value}","timestamp":"$nowAsText","newLocation":{"privacyPolicyType":"inDesktop"},"updateType":"changeProductionApplicationPrivacyPolicyLocation"} """
+        s""" {"actor":{"user":"${aGatekeeperUser.user}"},"instigator":"${anInstigator.value}","timestamp":"$nowAsText","newName":"$newName","updateType":"changeProductionApplicationName"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

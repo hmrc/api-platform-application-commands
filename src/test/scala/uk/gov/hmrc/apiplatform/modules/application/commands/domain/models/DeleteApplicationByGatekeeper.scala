@@ -16,28 +16,30 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
+import uk.gov.hmrc.apiplatform.modules.common.domain.models.LaxEmailAddress.StringSyntax
 import play.api.libs.json.Json
 
-class ChangeProductionApplicationPrivacyPolicyLocationSpec extends ApplicationCommandBaseSpec {
-
-  "ChangeProductionApplicationPrivacyPolicyLocation" should {
-    val cmd = ApplicationCommands.ChangeProductionApplicationPrivacyPolicyLocation(aUserId, aTimestamp, newPrivacyPolicyLocation)
+class DeleteApplicationByGatekeeperSpec extends ApplicationCommandBaseSpec {
+  val requestedBy = "bob@example.com".toLaxEmail
+  
+  "DeleteApplicationByGatekeeper" should {
+    val cmd = ApplicationCommands.DeleteApplicationByGatekeeper(aGatekeeperUser, requestedBy, reasons, aTimestamp)
 
     "write to json (as a command)" in {
-
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "instigator"  ->  s"${aUserId.value}",
-        "timestamp"   -> s"$nowAsText",
-        "newLocation" -> Json.obj(
-          "privacyPolicyType" -> "inDesktop",
+        "actor"  ->  Json.obj(
+          "user" -> s"${aGatekeeperUser.user}"
         ),
-        "updateType"  -> "changeProductionApplicationPrivacyPolicyLocation"
+        "requestedByEmailAddress" -> s"${requestedBy.text}",
+        "reasons"      -> s"$reasons",
+        "timestamp"   -> s"$nowAsText",
+        "updateType"  -> "deleteApplicationByGatekeeper"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"instigator":"${aUserId.value}","timestamp":"$nowAsText","newLocation":{"privacyPolicyType":"inDesktop"},"updateType":"changeProductionApplicationPrivacyPolicyLocation"} """
+        s""" {"actor":{"user":"${aGatekeeperUser.user}"},"requestedByEmailAddress":"${requestedBy.text}","timestamp":"$nowAsText","reasons":"$reasons","updateType":"deleteApplicationByGatekeeper"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }
