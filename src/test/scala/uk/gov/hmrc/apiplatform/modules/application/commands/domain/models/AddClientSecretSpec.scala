@@ -23,10 +23,10 @@ import uk.gov.hmrc.apiplatform.modules.applications.domain.models.ClientSecret
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
 class AddClientSecretSpec extends ApplicationCommandBaseSpec {
-  val aClientSecret = ClientSecret("aName", aTimestamp, None, ClientSecret.Id.random, "blahblahsecret")
+  val aClientSecretDetails = ClientSecretDetails("aName", aTimestamp, None, ClientSecret.Id.random, "blahblahsecret")
 
   "AddClientSecret" should {
-    val cmd = ApplicationCommands.AddClientSecret(Actors.AppCollaborator(anActorEmail), aClientSecret, aTimestamp)
+    val cmd = ApplicationCommands.AddClientSecret(Actors.AppCollaborator(anActorEmail), aClientSecretDetails, aTimestamp)
 
     "write to json (as a command)" in {
 
@@ -37,7 +37,7 @@ class AddClientSecretSpec extends ApplicationCommandBaseSpec {
         "clientSecret" -> Json.obj(
           "name"         -> "aName",
           "createdOn"    -> s"$nowAsText",
-          "id"           -> s"${aClientSecret.id.value}",
+          "id"           -> s"${aClientSecretDetails.id.value}",
           "hashedSecret" -> "blahblahsecret"
         ),
         "timestamp"    -> s"$nowAsText",
@@ -47,7 +47,7 @@ class AddClientSecretSpec extends ApplicationCommandBaseSpec {
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com"},"clientSecret":{"name":"aName","createdOn":"$nowAsText","id":"${aClientSecret.id.value}","hashedSecret":"blahblahsecret"},"timestamp":"$nowAsText","updateType":"addClientSecret"} """
+        s""" {"actor":{"email":"bob@example.com"},"clientSecret":{"name":"aName","createdOn":"$nowAsText","id":"${aClientSecretDetails.id.value}","hashedSecret":"blahblahsecret"},"timestamp":"$nowAsText","updateType":"addClientSecret"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }
