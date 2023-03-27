@@ -18,33 +18,24 @@ package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import play.api.libs.json.Json
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
+class DeleteProductionCredentialsApplicationSpec extends ApplicationCommandBaseSpec {
 
-class RemoveCollaboratorSpec extends ApplicationCommandBaseSpec {
-
-  "RemoveCollaborator" should {
-    val cmd = ApplicationCommands.RemoveCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "DeleteProductionCredentialsApplication" should {
+    val cmd = ApplicationCommands.DeleteProductionCredentialsApplication(aScheduledJob.jobId, reasons,  aTimestamp)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"        -> Json.obj(
-          "email"     -> "bob@example.com",
-          "actorType" -> "COLLABORATOR"
-        ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
-        ),
-        "timestamp"    ->s"$nowAsText",
-        "updateType"   -> "removeCollaborator"
+        "jobId"  ->  s"${aScheduledJob.jobId}",
+        "reasons" -> s"$reasons",
+        "timestamp"   -> s"$nowAsText",
+        "updateType"  -> "deleteProductionCredentialsApplication"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"removeCollaborator"} """
+        s""" {"jobId":"${aScheduledJob.jobId}","reasons":"$reasons","timestamp":"$nowAsText","updateType":"deleteProductionCredentialsApplication"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

@@ -21,10 +21,10 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.apiplatform.modules.application.commands.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
-class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
+class UnsubscribeFromApiSpec extends ApplicationCommandBaseSpec {
 
-  "AddCollaborator" should {
-    val cmd = ApplicationCommands.AddCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "UnsubscribeFromApi" should {
+    val cmd = ApplicationCommands.UnsubscribeFromApi(Actors.AppCollaborator(anActorEmail), anApiIdentifier, aTimestamp)
 
     "write to json (as a command)" in {
 
@@ -33,19 +33,18 @@ class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
           "email"     -> "bob@example.com",
           "actorType" -> "COLLABORATOR"
         ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
+        "apiIdentifier" -> Json.obj(
+          "context" -> "context",
+          "version"       -> "version"
         ),
         "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "addCollaborator"
+        "updateType"   -> "unsubscribeFromApi"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"addCollaborator"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"apiIdentifier":{"context":"context","version":"version"},"timestamp":"$nowAsText","updateType":"unsubscribeFromApi"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

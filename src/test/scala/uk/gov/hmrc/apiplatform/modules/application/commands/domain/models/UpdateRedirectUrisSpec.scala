@@ -21,10 +21,12 @@ import play.api.libs.json.Json
 import uk.gov.hmrc.apiplatform.modules.application.commands.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
-class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
+class UpdateRedirectUrisSpec extends ApplicationCommandBaseSpec {
+  val oldUris = List("a","b","c")
+  val newUris = List("a","b","x")
 
-  "AddCollaborator" should {
-    val cmd = ApplicationCommands.AddCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "UpdateRedirectUris" should {
+    val cmd = ApplicationCommands.UpdateRedirectUris(Actors.AppCollaborator(anActorEmail), oldUris, newUris, aTimestamp)
 
     "write to json (as a command)" in {
 
@@ -33,19 +35,16 @@ class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
           "email"     -> "bob@example.com",
           "actorType" -> "COLLABORATOR"
         ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
-        ),
+        "oldRedirectUris" -> Json.arr("a","b","c"),
+        "newRedirectUris" -> Json.arr("a","b","x"),
         "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "addCollaborator"
+        "updateType"   -> "updateRedirectUris"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"addCollaborator"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"timestamp":"$nowAsText","oldRedirectUris":["a","b","c"],"newRedirectUris":["a","b","x"],"updateType":"updateRedirectUris"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

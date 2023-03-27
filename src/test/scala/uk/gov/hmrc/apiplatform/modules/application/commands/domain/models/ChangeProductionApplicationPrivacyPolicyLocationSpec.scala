@@ -18,33 +18,26 @@ package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import play.api.libs.json.Json
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
+class ChangeProductionApplicationTermsAndConditionsLocationSpec extends ApplicationCommandBaseSpec {
 
-class RemoveCollaboratorSpec extends ApplicationCommandBaseSpec {
-
-  "RemoveCollaborator" should {
-    val cmd = ApplicationCommands.RemoveCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "ChangeProductionApplicationTermsAndConditionsLocation" should {
+    val cmd = ApplicationCommands.ChangeProductionApplicationTermsAndConditionsLocation(aUserId, aTimestamp, newTandCLocation)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"        -> Json.obj(
-          "email"     -> "bob@example.com",
-          "actorType" -> "COLLABORATOR"
+        "instigator"  ->  s"${aUserId.value}",
+        "timestamp"   -> s"$nowAsText",
+        "newLocation" -> Json.obj(
+          "termsAndConditionsType" -> "inDesktop",
         ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
-        ),
-        "timestamp"    ->s"$nowAsText",
-        "updateType"   -> "removeCollaborator"
+        "updateType"  -> "changeProductionApplicationTermsAndConditionsLocation"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"removeCollaborator"} """
+        s""" {"instigator":"${aUserId.value}","timestamp":"$nowAsText","newLocation":{"termsAndConditionsType":"inDesktop"},"updateType":"changeProductionApplicationTermsAndConditionsLocation"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

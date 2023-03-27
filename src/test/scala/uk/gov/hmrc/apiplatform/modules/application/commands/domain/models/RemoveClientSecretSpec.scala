@@ -14,38 +14,34 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.apiplatform.modules.application.commands
+package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
+
 
 import play.api.libs.json.Json
 
 import uk.gov.hmrc.apiplatform.modules.application.commands.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
-class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
+class RemoveClientSecretSpec extends ApplicationCommandBaseSpec {
 
-  "AddCollaborator" should {
-    val cmd = ApplicationCommands.AddCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "RemoveClientSecret" should {
+    val cmd = ApplicationCommands.RemoveClientSecret(Actors.AppCollaborator(anActorEmail), aClientSecretId, aTimestamp)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
         "actor"        -> Json.obj(
-          "email"     -> "bob@example.com",
-          "actorType" -> "COLLABORATOR"
+          "email"     -> "bob@example.com"
         ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
-        ),
+        "clientSecretId" -> s"${aClientSecretId.value}",
         "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "addCollaborator"
+        "updateType"   -> "removeClientSecret"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"addCollaborator"} """
+        s""" {"actor":{"email":"bob@example.com"},"clientSecretId":"${aClientSecretId.value}","timestamp":"$nowAsText","updateType":"removeClientSecret"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

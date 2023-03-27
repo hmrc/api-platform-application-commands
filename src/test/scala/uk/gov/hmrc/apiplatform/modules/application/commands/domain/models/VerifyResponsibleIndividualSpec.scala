@@ -18,33 +18,26 @@ package uk.gov.hmrc.apiplatform.modules.application.commands.domain.models
 
 import play.api.libs.json.Json
 
-import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
+class VerifyResponsibleIndividualSpec extends ApplicationCommandBaseSpec {
 
-class RemoveCollaboratorSpec extends ApplicationCommandBaseSpec {
-
-  "RemoveCollaborator" should {
-    val cmd = ApplicationCommands.RemoveCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "VerifyResponsibleIndividual" should {
+    val cmd = ApplicationCommands.VerifyResponsibleIndividual(aUserId,aTimestamp,requesterName, responsibleIndiviualName, aCollaboratorEmail)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor"        -> Json.obj(
-          "email"     -> "bob@example.com",
-          "actorType" -> "COLLABORATOR"
-        ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
-        ),
-        "timestamp"    ->s"$nowAsText",
-        "updateType"   -> "removeCollaborator"
+        "instigator"  ->  s"${aUserId.value}",
+        "timestamp"   -> s"$nowAsText",
+        "requesterName" -> s"$requesterName",
+        "riName"      -> s"$responsibleIndiviualName",
+        "riEmail"     -> s"${aCollaboratorEmail.text}",
+        "updateType"  -> "verifyResponsibleIndividual"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"removeCollaborator"} """
+        s""" {"instigator":"${aUserId.value}","timestamp":"$nowAsText","requesterName":"$requesterName","riName":"$responsibleIndiviualName","riEmail":"${aCollaboratorEmail.text}","updateType":"verifyResponsibleIndividual"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

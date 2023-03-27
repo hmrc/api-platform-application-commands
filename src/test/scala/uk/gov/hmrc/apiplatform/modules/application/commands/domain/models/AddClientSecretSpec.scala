@@ -16,36 +16,39 @@
 
 package uk.gov.hmrc.apiplatform.modules.application.commands
 
+
 import play.api.libs.json.Json
 
 import uk.gov.hmrc.apiplatform.modules.application.commands.domain.models._
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
+import uk.gov.hmrc.apiplatform.modules.applications.domain.models.ClientSecret
 
-class AddCollaboratorSpec extends ApplicationCommandBaseSpec {
+class AddClientSecretSpec extends ApplicationCommandBaseSpec {
+  val aClientSecret = ClientSecret("aName",aTimestamp, None, ClientSecret.Id.random, "blahblahsecret")
 
-  "AddCollaborator" should {
-    val cmd = ApplicationCommands.AddCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
+  "AddClientSecret" should {
+    val cmd = ApplicationCommands.AddClientSecret(Actors.AppCollaborator(anActorEmail), aClientSecret, aTimestamp)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
         "actor"        -> Json.obj(
-          "email"     -> "bob@example.com",
-          "actorType" -> "COLLABORATOR"
+          "email"     -> "bob@example.com"
         ),
-        "collaborator" -> Json.obj(
-          "emailAddress" -> "alice@example.com",
-          "role"         -> "DEVELOPER",
-          "userId"       -> s"${aUserId.value}"
+        "clientSecret" -> Json.obj(
+          "name"       -> "aName",
+          "createdOn"  -> s"$nowAsText",
+          "id"       -> s"${aClientSecret.id.value}",
+          "hashedSecret" -> "blahblahsecret"
         ),
         "timestamp"    -> s"$nowAsText",
-        "updateType"   -> "addCollaborator"
+        "updateType"   -> "addClientSecret"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"collaborator":{"emailAddress":"alice@example.com","role":"DEVELOPER","userId":"${aUserId.value}"},"timestamp":"$nowAsText","updateType":"addCollaborator"} """
+        s""" {"actor":{"email":"bob@example.com"},"clientSecret":{"name":"aName","createdOn":"$nowAsText","id":"${aClientSecret.id.value}","hashedSecret":"blahblahsecret"},"timestamp":"$nowAsText","updateType":"addClientSecret"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }
