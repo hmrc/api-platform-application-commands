@@ -34,7 +34,7 @@ trait ApplicationCommandBaseSpec extends HmrcSpec with FixedClock {
   val aUserId                     = UserId.random
   val ThreeMillisFourNanos        = 3 * 1000 * 1000 + 4
   val aCollaborator: Collaborator = aCollaboratorEmail.asDeveloper().copy(userId = aUserId)
-  val aTimestamp                  = now
+  val aTimestamp                  = now()
   val reasons                     = "blahblah"
 
   val aClientSecretId = ClientSecret.Id.random
