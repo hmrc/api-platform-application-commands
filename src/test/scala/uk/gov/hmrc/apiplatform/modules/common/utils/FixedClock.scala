@@ -17,7 +17,7 @@
 package uk.gov.hmrc.apiplatform.modules.common.utils
 
 import java.time.temporal.ChronoUnit
-import java.time.{Clock, Instant, LocalDateTime, ZoneOffset}
+import java.time.{Clock, LocalDateTime, ZoneOffset}
 
 import uk.gov.hmrc.apiplatform.modules.common.domain.services.ClockNow
 
@@ -25,14 +25,11 @@ trait FixedClock extends ClockNow {
 
   private val utc: ZoneOffset = ZoneOffset.UTC
 
-  override val now: LocalDateTime = LocalDateTime.of(2020, 1, 2, 3, 4, 5, 6 * 1000 * 1000).truncatedTo(ChronoUnit.MILLIS)
-
-  val instant: Instant = now.toInstant(utc)
+  private val pointInTime: LocalDateTime = LocalDateTime.of(2020, 1, 2, 3, 4, 5, 6 * 1000 * 1000).truncatedTo(ChronoUnit.MILLIS)
+  
+  val clock: Clock = Clock.fixed(pointInTime.toInstant(utc), utc)
 
   val nowAsText: String = "2020-01-02T03:04:05.006Z"
-
-  val clock: Clock = Clock.fixed(instant, utc)
-
 }
 
 object FixedClock extends FixedClock
