@@ -22,7 +22,7 @@ import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 class AddRedirectUriSpec extends ApplicationCommandBaseSpec {
 
   "AddRedirectUri" should {
-    val cmd = ApplicationCommands.AddRedirectUri(Actors.AppCollaborator(anActorEmail), redirectUri, aTimestamp)
+    val cmd = ApplicationCommands.AddRedirectUri(Actors.AppCollaborator(anActorEmail), redirectUri.value, aTimestamp)
 
     "write to json (as a command)" in {
 
@@ -31,7 +31,7 @@ class AddRedirectUriSpec extends ApplicationCommandBaseSpec {
           "email"     -> "bob@example.com",
           "actorType" -> "COLLABORATOR"
         ),
-        "redirectUriToAdd" -> s"$redirectUri",
+        "redirectUriToAdd" -> s"${redirectUri.value.uri}",
         "timestamp"    -> s"$nowAsText",
         "updateType"   -> "addRedirectUri"
       )
@@ -39,7 +39,7 @@ class AddRedirectUriSpec extends ApplicationCommandBaseSpec {
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"redirectUriToAdd":"$redirectUri","timestamp":"$nowAsText","updateType":"addRedirectUri"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"redirectUriToAdd":"${redirectUri.value.uri}","timestamp":"$nowAsText","updateType":"addRedirectUri"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

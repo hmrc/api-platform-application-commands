@@ -22,7 +22,7 @@ import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 class ChangeRedirectUriSpec extends ApplicationCommandBaseSpec {
 
   "AddRedirectUri" should {
-    val cmd = ApplicationCommands.ChangeRedirectUri(Actors.AppCollaborator(anActorEmail), redirectUriToChange, redirectUri, aTimestamp)
+    val cmd = ApplicationCommands.ChangeRedirectUri(Actors.AppCollaborator(anActorEmail), redirectUriToChange.value, redirectUri.value, aTimestamp)
 
     "write to json (as a command)" in {
 
@@ -31,8 +31,8 @@ class ChangeRedirectUriSpec extends ApplicationCommandBaseSpec {
           "email" -> "bob@example.com",
           "actorType" -> "COLLABORATOR"
         ),
-        "redirectUriToReplace" -> s"$redirectUriToChange",
-        "redirectUri" -> s"$redirectUri",
+        "redirectUriToReplace" -> s"${redirectUriToChange.value.uri}",
+        "redirectUri" -> s"${redirectUri.value.uri}",
         "timestamp" -> s"$nowAsText",
         "updateType" -> "changeRedirectUri"
       )
@@ -40,7 +40,7 @@ class ChangeRedirectUriSpec extends ApplicationCommandBaseSpec {
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"redirectUriToReplace":"$redirectUriToChange","redirectUri":"$redirectUri","timestamp":"$nowAsText","updateType":"changeRedirectUri"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"redirectUriToReplace":"${redirectUriToChange.value.uri}","redirectUri":"${redirectUri.value.uri}","timestamp":"$nowAsText","updateType":"changeRedirectUri"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

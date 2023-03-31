@@ -47,8 +47,8 @@ trait ApplicationCommandBaseSpec extends HmrcSpec with FixedClock {
   val aScheduledJob      = "aJobId"
   val anAuthorisationKey = "1234"
 
-  val redirectUri    = "http://someurl.com/path/to/glory"
-  val redirectUriToChange = "http://oldUrl/that/needs/a/change"
+  val redirectUri    = RedirectUri("https://someurl.com/path/to/glory")
+  val redirectUriToChange = RedirectUri("https://oldUrl/that/needs/a/change")
 
   val aGatekeeperUser = "Bob in SDST"
 }

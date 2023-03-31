@@ -38,11 +38,11 @@ sealed trait GatekeeperApplicationCommand extends ApplicationCommand {
 object ApplicationCommands {
   case class AddClientSecret(actor: Actors.AppCollaborator, name: String, id: ClientSecret.Id, hashedSecret: String, timestamp: LocalDateTime)            extends ApplicationCommand
   case class AddCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                          extends ApplicationCommand
-  case class AddRedirectUri(actor: Actor, redirectUriToAdd: String, timestamp: LocalDateTime)                                                              extends ApplicationCommand
+  case class AddRedirectUri(actor: Actor, redirectUriToAdd: RedirectUri, timestamp: LocalDateTime)                                                              extends ApplicationCommand
   case class ChangeProductionApplicationName(gatekeeperUser: String, instigator: UserId, timestamp: LocalDateTime, newName: String)                 extends GatekeeperApplicationCommand
   case class ChangeProductionApplicationPrivacyPolicyLocation(instigator: UserId, timestamp: LocalDateTime, newLocation: PrivacyPolicyLocation)           extends ApplicationCommand
   case class ChangeProductionApplicationTermsAndConditionsLocation(instigator: UserId, timestamp: LocalDateTime, newLocation: TermsAndConditionsLocation) extends ApplicationCommand
-  case class ChangeRedirectUri(actor: Actor, redirectUriToReplace: String, redirectUri: String, timestamp: LocalDateTime)                                    extends ApplicationCommand
+  case class ChangeRedirectUri(actor: Actor, redirectUriToReplace: RedirectUri, redirectUri: RedirectUri, timestamp: LocalDateTime)                                    extends ApplicationCommand
   case class ChangeResponsibleIndividualToSelf(instigator: UserId, timestamp: LocalDateTime, name: String, email: LaxEmailAddress)                        extends ApplicationCommand
   case class ChangeResponsibleIndividualToOther(code: String, timestamp: LocalDateTime)                                                                   extends ApplicationCommand
   case class DeclineApplicationApprovalRequest(gatekeeperUser: String, reasons: String, timestamp: LocalDateTime)                                         extends GatekeeperApplicationCommand
@@ -53,7 +53,7 @@ object ApplicationCommands {
   case class DeleteApplicationByGatekeeper(gatekeeperUser: String, requestedByEmailAddress: LaxEmailAddress, reasons: String, timestamp: LocalDateTime)
       extends GatekeeperApplicationCommand
 
-  case class DeleteRedirectUri(actor: Actor, redirectUriToDelete: String, timestamp: LocalDateTime)                                                     extends ApplicationCommand
+  case class DeleteRedirectUri(actor: Actor, redirectUriToDelete: RedirectUri, timestamp: LocalDateTime)                                                     extends ApplicationCommand
   case class DeleteProductionCredentialsApplication(jobId: String, reasons: String, timestamp: LocalDateTime)                                           extends ApplicationCommand
   case class DeleteUnusedApplication(jobId: String, authorisationKey: String, reasons: String, timestamp: LocalDateTime)                                extends ApplicationCommand
   case class RemoveClientSecret(actor: Actors.AppCollaborator, clientSecretId: ClientSecret.Id, timestamp: LocalDateTime)                               extends ApplicationCommand
