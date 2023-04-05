@@ -5,6 +5,7 @@ object LibraryDependencies {
 
   lazy val compileDependencies = Seq(
     "com.typesafe.play"       %% "play-json"                        % "2.9.2",
+    "org.typelevel"           %% "cats-core"                        % "2.9.0",
     "uk.gov.hmrc"             %% "api-platform-application-domain"  % "0.6.0"
   )
 

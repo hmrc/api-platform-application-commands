@@ -28,6 +28,8 @@ object CommandFailures {
   case object CollaboratorDoesNotExistOnApp   extends CommandFailure
   case object CollaboratorHasMismatchOnApp    extends CommandFailure
   case object CollaboratorAlreadyExistsOnApp  extends CommandFailure
+  case object DuplicateSubscription           extends CommandFailure
+  case object SubscriptionNotAvailable        extends CommandFailure
   case class GenericFailure(describe: String) extends CommandFailure
 }
 
@@ -40,6 +42,8 @@ object CommandFailure {
   implicit private val formatCollaboratorDoesNotExistOnApp  = Json.format[CollaboratorDoesNotExistOnApp.type]
   implicit private val formatCollaboratorHasMismatchOnApp   = Json.format[CollaboratorHasMismatchOnApp.type]
   implicit private val formatCollaboratorAlreadyExistsOnApp = Json.format[CollaboratorAlreadyExistsOnApp.type]
+  implicit private val formatDuplicateSubscription          = Json.format[DuplicateSubscription.type]
+  implicit private val formatSubscriptionNotAvailable       = Json.format[SubscriptionNotAvailable.type]
   implicit private val formatGenericFailure                 = Json.format[GenericFailure]
 
   implicit val format: Format[CommandFailure] = Union.from[CommandFailure]("failureType")
@@ -49,6 +53,8 @@ object CommandFailure {
     .and[CollaboratorDoesNotExistOnApp.type]("CollaboratorDoesNotExistOnApp")
     .and[CollaboratorHasMismatchOnApp.type]("CollaboratorHasMismatchOnApp")
     .and[CollaboratorAlreadyExistsOnApp.type]("CollaboratorAlreadyExistsOnApp")
+    .and[DuplicateSubscription.type]("DuplicateSubscription")
+    .and[SubscriptionNotAvailable.type]("SubscriptionNotAvailable")
     .and[GenericFailure]("GenericFailure")
     .format
 }
