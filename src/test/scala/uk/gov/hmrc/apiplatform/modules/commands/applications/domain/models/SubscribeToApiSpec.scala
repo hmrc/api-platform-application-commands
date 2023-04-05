@@ -24,7 +24,7 @@ import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 class SubscribeToApiSpec extends ApplicationCommandBaseSpec {
 
   "SubscribeToApi" should {
-    val cmd = ApplicationCommands.SubscribeToApi(Actors.AppCollaborator(anActorEmail), anApiIdentifier, aTimestamp)
+    val cmd = ApplicationCommands.SubscribeToApi(Actors.AppCollaborator(anActorEmail), anApiIdentifier, false, aTimestamp)
 
     "write to json (as a command)" in {
 
@@ -37,6 +37,7 @@ class SubscribeToApiSpec extends ApplicationCommandBaseSpec {
           "context" -> "context",
           "version" -> "version"
         ),
+        "restricted"    -> false,
         "timestamp"     -> s"$nowAsText",
         "updateType"    -> "subscribeToApi"
       )
@@ -44,7 +45,7 @@ class SubscribeToApiSpec extends ApplicationCommandBaseSpec {
 
     "read from json" in {
       val jsonText =
-        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"apiIdentifier":{"context":"context","version":"version"},"timestamp":"$nowAsText","updateType":"subscribeToApi"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"apiIdentifier":{"context":"context","version":"version"},"restricted":false,"timestamp":"$nowAsText","updateType":"subscribeToApi"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

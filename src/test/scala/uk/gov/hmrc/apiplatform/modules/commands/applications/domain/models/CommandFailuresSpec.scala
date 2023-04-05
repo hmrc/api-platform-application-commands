@@ -53,6 +53,14 @@ class CommandFailuresSpec extends HmrcSpec {
       testCommandFailure("""{"failureType":"CollaboratorAlreadyExistsOnApp"}""", CommandFailures.CollaboratorAlreadyExistsOnApp)
     }
 
+    "handle json for DuplicateSubscription" in {
+      testCommandFailure("""{"failureType":"DuplicateSubscription"}""", CommandFailures.DuplicateSubscription)
+    }
+
+    "handle json for SubscriptionNotAvailable" in {
+      testCommandFailure("""{"failureType":"SubscriptionNotAvailable"}""", CommandFailures.SubscriptionNotAvailable)
+    }
+
     "handle json for GenericFailure" in {
       testCommandFailure("""{"describe":"someError","failureType":"GenericFailure"}""", CommandFailures.GenericFailure("someError"))
     }
