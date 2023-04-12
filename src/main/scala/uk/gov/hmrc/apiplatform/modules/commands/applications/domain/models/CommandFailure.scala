@@ -23,6 +23,7 @@ sealed trait CommandFailure
 
 object CommandFailures {
   case object ApplicationNotFound             extends CommandFailure
+  case class InsufficientPrivileges(details: String) extends CommandFailure
   case object CannotRemoveLastAdmin           extends CommandFailure
   case object ActorIsNotACollaboratorOnApp    extends CommandFailure
   case object CollaboratorDoesNotExistOnApp   extends CommandFailure
@@ -30,6 +31,7 @@ object CommandFailures {
   case object CollaboratorAlreadyExistsOnApp  extends CommandFailure
   case object DuplicateSubscription           extends CommandFailure
   case object SubscriptionNotAvailable        extends CommandFailure
+  case object NotSubscribedToApi              extends CommandFailure
   case class GenericFailure(describe: String) extends CommandFailure
 }
 
@@ -37,6 +39,7 @@ object CommandFailure {
   import CommandFailures._
 
   implicit private val formatApplicationNotFound            = Json.format[ApplicationNotFound.type]
+  implicit private val formatInsufficientPrivileges         = Json.format[InsufficientPrivileges]
   implicit private val formatCannotRemoveLastAdmin          = Json.format[CannotRemoveLastAdmin.type]
   implicit private val formatActorIsNotACollaboratorOnApp   = Json.format[ActorIsNotACollaboratorOnApp.type]
   implicit private val formatCollaboratorDoesNotExistOnApp  = Json.format[CollaboratorDoesNotExistOnApp.type]
@@ -44,10 +47,12 @@ object CommandFailure {
   implicit private val formatCollaboratorAlreadyExistsOnApp = Json.format[CollaboratorAlreadyExistsOnApp.type]
   implicit private val formatDuplicateSubscription          = Json.format[DuplicateSubscription.type]
   implicit private val formatSubscriptionNotAvailable       = Json.format[SubscriptionNotAvailable.type]
+  implicit private val formatNotSubscribedToApi             = Json.format[NotSubscribedToApi.type]
   implicit private val formatGenericFailure                 = Json.format[GenericFailure]
 
   implicit val format: Format[CommandFailure] = Union.from[CommandFailure]("failureType")
     .and[ApplicationNotFound.type]("ApplicationNotFound")
+    .and[InsufficientPrivileges]("InsufficientPrivileges")
     .and[CannotRemoveLastAdmin.type]("CannotRemoveLastAdmin")
     .and[ActorIsNotACollaboratorOnApp.type]("ActorIsNotACollaboratorOnApp")
     .and[CollaboratorDoesNotExistOnApp.type]("CollaboratorDoesNotExistOnApp")
@@ -55,6 +60,7 @@ object CommandFailure {
     .and[CollaboratorAlreadyExistsOnApp.type]("CollaboratorAlreadyExistsOnApp")
     .and[DuplicateSubscription.type]("DuplicateSubscription")
     .and[SubscriptionNotAvailable.type]("SubscriptionNotAvailable")
+    .and[NotSubscribedToApi.type]("NotSubscribedToApi")
     .and[GenericFailure]("GenericFailure")
     .format
 }

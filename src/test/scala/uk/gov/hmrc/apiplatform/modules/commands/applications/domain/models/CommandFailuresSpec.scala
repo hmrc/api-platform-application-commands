@@ -25,12 +25,16 @@ class CommandFailuresSpec extends HmrcSpec {
     Json.parse(jsonText).as[CommandFailure] shouldBe commandFailure
 
     val jsonVal = Json.toJson[CommandFailure](commandFailure)
-    jsonVal.toString() shouldBe jsonText
+    jsonVal shouldBe Json.parse(jsonText)
   }
 
   "A CommandFailure" should {
     "handle json for ApplicationNotFound" in {
       testCommandFailure("""{"failureType":"ApplicationNotFound"}""", CommandFailures.ApplicationNotFound)
+    }
+
+    "handle json for InsufficientPrivileges" in {
+      testCommandFailure("""{"failureType":"InsufficientPrivileges", "details": "Bob is not an alien"}""", CommandFailures.InsufficientPrivileges("Bob is not an alien"))
     }
 
     "handle json for CannotRemoveLastAdmin" in {
@@ -61,6 +65,10 @@ class CommandFailuresSpec extends HmrcSpec {
       testCommandFailure("""{"failureType":"SubscriptionNotAvailable"}""", CommandFailures.SubscriptionNotAvailable)
     }
 
+    "handle json for NotSubscribedToApi" in {
+      testCommandFailure("""{"failureType":"NotSubscribedToApi"}""", CommandFailures.NotSubscribedToApi)
+    }
+    
     "handle json for GenericFailure" in {
       testCommandFailure("""{"describe":"someError","failureType":"GenericFailure"}""", CommandFailures.GenericFailure("someError"))
     }
