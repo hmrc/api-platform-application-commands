@@ -23,6 +23,7 @@ sealed trait CommandFailure
 
 object CommandFailures {
   case object ApplicationNotFound             extends CommandFailure
+  case class InsufficientPrivileges(details: String) extends CommandFailure
   case object CannotRemoveLastAdmin           extends CommandFailure
   case object ActorIsNotACollaboratorOnApp    extends CommandFailure
   case object CollaboratorDoesNotExistOnApp   extends CommandFailure
@@ -38,6 +39,7 @@ object CommandFailure {
   import CommandFailures._
 
   implicit private val formatApplicationNotFound            = Json.format[ApplicationNotFound.type]
+  implicit private val formatInsufficientPrivileges         = Json.format[InsufficientPrivileges]
   implicit private val formatCannotRemoveLastAdmin          = Json.format[CannotRemoveLastAdmin.type]
   implicit private val formatActorIsNotACollaboratorOnApp   = Json.format[ActorIsNotACollaboratorOnApp.type]
   implicit private val formatCollaboratorDoesNotExistOnApp  = Json.format[CollaboratorDoesNotExistOnApp.type]
@@ -50,6 +52,7 @@ object CommandFailure {
 
   implicit val format: Format[CommandFailure] = Union.from[CommandFailure]("failureType")
     .and[ApplicationNotFound.type]("ApplicationNotFound")
+    .and[InsufficientPrivileges]("InsufficientPrivileges")
     .and[CannotRemoveLastAdmin.type]("CannotRemoveLastAdmin")
     .and[ActorIsNotACollaboratorOnApp.type]("ActorIsNotACollaboratorOnApp")
     .and[CollaboratorDoesNotExistOnApp.type]("CollaboratorDoesNotExistOnApp")
