@@ -24,22 +24,22 @@ trait BaseCommandHandler[S] extends CommandHandlerTypes[S] {
   import CommandFailures._
 
   def cond(cond: => Boolean, left: CommandFailure): Validated[Failures, Unit] = {
-    if (cond) ().validNec[CommandFailure] else left.invalidNec[Unit]
+    if (cond) ().validNel[CommandFailure] else left.invalidNel[Unit]
   }
 
   def cond(cond: => Boolean, left: String): Validated[Failures, Unit] = {
-    if (cond) ().validNec[CommandFailure] else GenericFailure(left).invalidNec[Unit]
+    if (cond) ().validNel[CommandFailure] else GenericFailure(left).invalidNel[Unit]
   }
 
   def cond[R](cond: => Boolean, left: CommandFailure, rValue: R): Validated[Failures, R] = {
-    if (cond) rValue.validNec[CommandFailure] else left.invalidNec[R]
+    if (cond) rValue.validNel[CommandFailure] else left.invalidNel[R]
   }
 
   def mustBeDefined[R](value: Option[R], left: CommandFailure): Validated[Failures, R] = {
-    value.fold(left.invalidNec[R])(_.validNec[CommandFailure])
+    value.fold(left.invalidNel[R])(_.validNel[CommandFailure])
   }
 
   def mustBeDefined[R](value: Option[R], left: String): Validated[Failures, R] = {
-    value.fold[Validated[Failures, R]](GenericFailure(left).invalidNec[R])(_.validNec[CommandFailure])
+    value.fold[Validated[Failures, R]](GenericFailure(left).invalidNel[R])(_.validNel[CommandFailure])
   }
 }
