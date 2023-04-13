@@ -28,10 +28,10 @@ class BaseCommandHandlerSpec extends HmrcSpec {
     "using cond-with-failure" should {
       
       "on passing return unit" in {
-        TestMe.cond(true, failure) shouldBe ().validNec[CommandFailure]
+        TestMe.cond(true, failure) shouldBe ().validNel[CommandFailure]
       }
       "on failing return the failure" in {
-        TestMe.cond(false, failure) shouldBe failure.invalidNec[Boolean]
+        TestMe.cond(false, failure) shouldBe failure.invalidNel[Boolean]
       }
     }
 
@@ -39,10 +39,10 @@ class BaseCommandHandlerSpec extends HmrcSpec {
       val left: String = "A message"
       
       "on passing return unit" in {
-        TestMe.cond(true, left) shouldBe ().validNec[CommandFailure]
+        TestMe.cond(true, left) shouldBe ().validNel[CommandFailure]
       }
       "on failing return the failure" in {
-        TestMe.cond(false, left) shouldBe CommandFailures.GenericFailure(left).invalidNec[Boolean]
+        TestMe.cond(false, left) shouldBe CommandFailures.GenericFailure(left).invalidNel[Boolean]
       }
     }
 
@@ -51,10 +51,10 @@ class BaseCommandHandlerSpec extends HmrcSpec {
       val right: String = "Yes"
       
       "on passing return unit" in {
-        TestMe.cond(true, left, right) shouldBe right.validNec[CommandFailure]
+        TestMe.cond(true, left, right) shouldBe right.validNel[CommandFailure]
       }
       "on failing return the failure" in {
-        TestMe.cond(false, left, right) shouldBe left.invalidNec[Boolean]
+        TestMe.cond(false, left, right) shouldBe left.invalidNel[Boolean]
       }
     }
 
@@ -62,12 +62,12 @@ class BaseCommandHandlerSpec extends HmrcSpec {
       "on finding a value return the value" in {
         val value: Option[String] = Some("Test")
 
-        TestMe.mustBeDefined(value, failure) shouldBe value.get.validNec[CommandFailure]
+        TestMe.mustBeDefined(value, failure) shouldBe value.get.validNel[CommandFailure]
       }
 
       "on finding a none return the failure" in {
         val value: Option[String] = None
-        TestMe.mustBeDefined(value, failure) shouldBe failure.invalidNec[String]
+        TestMe.mustBeDefined(value, failure) shouldBe failure.invalidNel[String]
       }
     }
 
@@ -78,12 +78,12 @@ class BaseCommandHandlerSpec extends HmrcSpec {
       "on finding a value return the value" in {
         val value: Option[String] = Some("Test")
 
-        TestMe.mustBeDefined(value, errMsg) shouldBe value.get.validNec[CommandFailure]
+        TestMe.mustBeDefined(value, errMsg) shouldBe value.get.validNel[CommandFailure]
       }
 
       "on finding a none return the failure" in {
         val value: Option[String] = None
-        TestMe.mustBeDefined(value, errMsg) shouldBe CommandFailures.GenericFailure(errMsg).invalidNec[String]
+        TestMe.mustBeDefined(value, errMsg) shouldBe CommandFailures.GenericFailure(errMsg).invalidNel[String]
       }
     }
   }
