@@ -45,6 +45,10 @@ class CommandFailuresSpec extends HmrcSpec {
       testCommandFailure("""{"failureType":"ActorIsNotACollaboratorOnApp"}""", CommandFailures.ActorIsNotACollaboratorOnApp)
     }
 
+    "handle json for ClientSecretLimitExceeded" in {
+      testCommandFailure("""{"failureType":"ClientSecretLimitExceeded"}""", CommandFailures.ClientSecretLimitExceeded)
+    }
+
     "handle json for CollaboratorDoesNotExistOnApp" in {
       testCommandFailure("""{"failureType":"CollaboratorDoesNotExistOnApp"}""", CommandFailures.CollaboratorDoesNotExistOnApp)
     }

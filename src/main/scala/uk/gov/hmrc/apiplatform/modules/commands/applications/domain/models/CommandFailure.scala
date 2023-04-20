@@ -26,6 +26,7 @@ object CommandFailures {
   case class InsufficientPrivileges(details: String) extends CommandFailure
   case object CannotRemoveLastAdmin           extends CommandFailure
   case object ActorIsNotACollaboratorOnApp    extends CommandFailure
+  case object ClientSecretLimitExceeded       extends CommandFailure
   case object CollaboratorDoesNotExistOnApp   extends CommandFailure
   case object CollaboratorHasMismatchOnApp    extends CommandFailure
   case object CollaboratorAlreadyExistsOnApp  extends CommandFailure
@@ -42,6 +43,7 @@ object CommandFailure {
   implicit private val formatInsufficientPrivileges         = Json.format[InsufficientPrivileges]
   implicit private val formatCannotRemoveLastAdmin          = Json.format[CannotRemoveLastAdmin.type]
   implicit private val formatActorIsNotACollaboratorOnApp   = Json.format[ActorIsNotACollaboratorOnApp.type]
+  implicit private val formatClientSecretLimitExceeded      = Json.format[ClientSecretLimitExceeded.type]
   implicit private val formatCollaboratorDoesNotExistOnApp  = Json.format[CollaboratorDoesNotExistOnApp.type]
   implicit private val formatCollaboratorHasMismatchOnApp   = Json.format[CollaboratorHasMismatchOnApp.type]
   implicit private val formatCollaboratorAlreadyExistsOnApp = Json.format[CollaboratorAlreadyExistsOnApp.type]
@@ -55,6 +57,7 @@ object CommandFailure {
     .and[InsufficientPrivileges]("InsufficientPrivileges")
     .and[CannotRemoveLastAdmin.type]("CannotRemoveLastAdmin")
     .and[ActorIsNotACollaboratorOnApp.type]("ActorIsNotACollaboratorOnApp")
+    .and[ClientSecretLimitExceeded.type]("ClientSecretLimitExceeded")
     .and[CollaboratorDoesNotExistOnApp.type]("CollaboratorDoesNotExistOnApp")
     .and[CollaboratorHasMismatchOnApp.type]("CollaboratorHasMismatchOnApp")
     .and[CollaboratorAlreadyExistsOnApp.type]("CollaboratorAlreadyExistsOnApp")
