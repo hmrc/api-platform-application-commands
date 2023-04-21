@@ -34,6 +34,23 @@ object CommandFailures {
   case object SubscriptionNotAvailable        extends CommandFailure
   case object NotSubscribedToApi              extends CommandFailure
   case class GenericFailure(describe: String) extends CommandFailure
+
+  def describe(failure: CommandFailure): String = {
+    failure match {
+      case _ @ApplicationNotFound            => "Application not found"
+      case InsufficientPrivileges(text)      => s"Insufficient privileges - $text"
+      case _ @CannotRemoveLastAdmin          => "Cannot remove the last admin from an app"
+      case _ @ActorIsNotACollaboratorOnApp   => "Actor is not a collaborator on the app"
+      case _ @CollaboratorDoesNotExistOnApp  => "Collaborator does not exist on the app"
+      case _ @CollaboratorHasMismatchOnApp   => "Collaborator has mismatched details against the app"
+      case _ @CollaboratorAlreadyExistsOnApp => "Collaborator already exists on the app"
+      case _ @DuplicateSubscription          => "Duplicate subscription"
+      case _ @SubscriptionNotAvailable       => "Subscription not available"
+      case _ @NotSubscribedToApi             => "Not subscribed to API"
+      case _ @ClientSecretLimitExceeded      => "Client Secrets imit exceeded"
+      case GenericFailure(s)                 => s
+    }
+  }
 }
 
 object CommandFailure {

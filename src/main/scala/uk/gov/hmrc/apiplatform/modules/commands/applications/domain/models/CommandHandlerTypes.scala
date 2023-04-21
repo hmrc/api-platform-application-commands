@@ -26,29 +26,29 @@ trait CommandHandlerTypes[S] {
   type Success = S
 
   type Failures = NonEmptyList[CommandFailure]
-  type Result = Future[Either[Failures,Success]]
-  type ResultT = EitherT[Future, Failures, Success]
+  type AppCmdResult = Future[Either[Failures,Success]]
+  type AppCmdResultT = EitherT[Future, Failures, Success]
 
   object Implicits {
     implicit class SuccessSyntax(successValue: Success) {
       import cats.syntax.either._
       import cats.syntax.applicative._
 
-      def asSuccess(implicit ec: ExecutionContext): Result = successValue.asRight[Failures].pure[Future]
+      def asSuccess(implicit ec: ExecutionContext): AppCmdResult = successValue.asRight[Failures].pure[Future]
     }
 
     implicit class FailureSyntax(failureValue: CommandFailure) {
       import cats.syntax.either._
       import cats.syntax.applicative._
       
-      def asFailure(implicit ec: ExecutionContext): Result = failureValue.leftNel[Success].pure[Future]
+      def asFailure(implicit ec: ExecutionContext): AppCmdResult = failureValue.leftNel[Success].pure[Future]
     }
     
     implicit class FailuresSyntax(failureValues: Failures) {
       import cats.syntax.either._
       import cats.syntax.applicative._
       
-      def asFailure(implicit ec: ExecutionContext): Result = failureValues.asLeft[Success].pure[Future]
+      def asFailure(implicit ec: ExecutionContext): AppCmdResult = failureValues.asLeft[Success].pure[Future]
     }
   }
 }

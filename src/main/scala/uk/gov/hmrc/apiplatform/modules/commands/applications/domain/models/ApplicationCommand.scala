@@ -54,7 +54,7 @@ object ApplicationCommands {
   case class DeleteUnusedApplication(jobId: String, authorisationKey: String, reasons: String, timestamp: LocalDateTime)                   extends ApplicationCommand
   case class RemoveClientSecret(actor: Actors.AppCollaborator, clientSecretId: ClientSecret.Id, timestamp: LocalDateTime)                               extends ApplicationCommand
   case class RemoveCollaborator(actor: Actor, collaborator: Collaborator, timestamp: LocalDateTime)                                                     extends ApplicationCommand
-  case class SubscribeToApi(actor: Actor, apiIdentifier: ApiIdentifier, restricted: Boolean, timestamp: LocalDateTime)                                                       extends ApplicationCommand
+  case class SubscribeToApi(actor: Actor, apiIdentifier: ApiIdentifier, timestamp: LocalDateTime)                                                       extends ApplicationCommand
   case class UnsubscribeFromApi(actor: Actor, apiIdentifier: ApiIdentifier, timestamp: LocalDateTime)                                                   extends ApplicationCommand
   case class UpdateRedirectUris(actor: Actor, oldRedirectUris: List[String], newRedirectUris: List[String], timestamp: LocalDateTime)                   extends ApplicationCommand
   case class VerifyResponsibleIndividual(instigator: UserId, timestamp: LocalDateTime, requesterName: String, riName: String, riEmail: LaxEmailAddress) extends ApplicationCommand
