@@ -29,9 +29,9 @@ class DeclineApplicationApprovalRequestSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
         "gatekeeperUser" -> s"${aGatekeeperUser}",
-        "reasons"    -> s"$reasons",
-        "timestamp"  -> s"$nowAsText",
-        "updateType" -> "declineApplicationApprovalRequest"
+        "reasons"        -> s"$reasons",
+        "timestamp"      -> s"$nowAsText",
+        "updateType"     -> "declineApplicationApprovalRequest"
       )
     }
 

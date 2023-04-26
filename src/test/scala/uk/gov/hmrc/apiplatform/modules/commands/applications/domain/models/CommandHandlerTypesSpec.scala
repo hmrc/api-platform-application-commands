@@ -16,11 +16,13 @@
 
 package uk.gov.hmrc.apiplatform.modules.commands.applications.domain.models
 
-import uk.gov.hmrc.apiplatform.utils.HmrcSpec
-import scala.concurrent.ExecutionContext.Implicits.global
-import cats.data.NonEmptyList
 import scala.concurrent.Await
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
+
+import cats.data.NonEmptyList
+
+import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 
 class CommandHandlerTypesSpec extends HmrcSpec {
   import CommandFailures._
@@ -33,14 +35,14 @@ class CommandHandlerTypesSpec extends HmrcSpec {
       import CHT._
       import CHT.Implicits._
 
-      val expectedResult: Either[Failures,String] = "bob".asRight[Failures]
+      val expectedResult: Either[Failures, String] = "bob".asRight[Failures]
       Await.result("bob".asSuccess, 1.second) shouldBe expectedResult
 
       val failure = ApplicationNotFound
-      Await.result(failure.asFailure, 1.second) shouldBe Left[Failures,String](NonEmptyList.one(failure))
+      Await.result(failure.asFailure, 1.second) shouldBe Left[Failures, String](NonEmptyList.one(failure))
 
       val failures = NonEmptyList.of(ApplicationNotFound, CollaboratorDoesNotExistOnApp)
-      Await.result(failures.asFailure, 1.second) shouldBe Left[Failures,String](failures)
+      Await.result(failures.asFailure, 1.second) shouldBe Left[Failures, String](failures)
     }
   }
 }

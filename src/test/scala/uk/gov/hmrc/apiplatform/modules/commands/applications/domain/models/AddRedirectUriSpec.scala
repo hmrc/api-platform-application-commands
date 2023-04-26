@@ -18,29 +18,29 @@ package uk.gov.hmrc.apiplatform.modules.commands.applications.domain.models
 
 import play.api.libs.json.Json
 
-import uk.gov.hmrc.apiplatform.modules.developers.domain.models.UserId
+import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
-class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
-  val newName      = "Bobs App"
-  val anInstigator = UserId.random
+class AddRedirectUriSpec extends ApplicationCommandBaseSpec {
 
-  "ChangeProductionApplicationName" should {
-    val cmd = ApplicationCommands.ChangeProductionApplicationName(aGatekeeperUser, anInstigator, aTimestamp, newName)
+  "AddRedirectUri" should {
+    val cmd = ApplicationCommands.AddRedirectUri(Actors.AppCollaborator(anActorEmail), redirectUri.value, aTimestamp)
 
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "gatekeeperUser" -> s"${aGatekeeperUser}",
-        "instigator"     -> s"${anInstigator.value}",
-        "timestamp"      -> s"$nowAsText",
-        "newName"        -> s"$newName",
-        "updateType"     -> "changeProductionApplicationName"
+        "actor"            -> Json.obj(
+          "email"     -> "bob@example.com",
+          "actorType" -> "COLLABORATOR"
+        ),
+        "redirectUriToAdd" -> s"${redirectUri.value.uri}",
+        "timestamp"        -> s"$nowAsText",
+        "updateType"       -> "addRedirectUri"
       )
     }
 
     "read from json" in {
       val jsonText =
-        s""" {"gatekeeperUser":"${aGatekeeperUser}","instigator":"${anInstigator.value}","timestamp":"$nowAsText","newName":"$newName","updateType":"changeProductionApplicationName"} """
+        s""" {"actor":{"email":"bob@example.com","actorType":"COLLABORATOR"},"redirectUriToAdd":"${redirectUri.value.uri}","timestamp":"$nowAsText","updateType":"addRedirectUri"} """
 
       Json.parse(jsonText).as[ApplicationCommand] shouldBe cmd
     }

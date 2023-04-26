@@ -16,20 +16,20 @@
 
 package uk.gov.hmrc.apiplatform.modules.commands.applications.domain.models
 
-import cats.data.{EitherT, NonEmptyList}
+import scala.concurrent.{ExecutionContext, Future}
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext
+import cats.data.{EitherT, NonEmptyList}
 
 trait CommandHandlerTypes[S] {
 
   type Success = S
 
-  type Failures = NonEmptyList[CommandFailure]
-  type AppCmdResult = Future[Either[Failures,Success]]
+  type Failures      = NonEmptyList[CommandFailure]
+  type AppCmdResult  = Future[Either[Failures, Success]]
   type AppCmdResultT = EitherT[Future, Failures, Success]
 
   object Implicits {
+
     implicit class SuccessSyntax(successValue: Success) {
       import cats.syntax.either._
       import cats.syntax.applicative._
@@ -40,14 +40,14 @@ trait CommandHandlerTypes[S] {
     implicit class FailureSyntax(failureValue: CommandFailure) {
       import cats.syntax.either._
       import cats.syntax.applicative._
-      
+
       def asFailure(implicit ec: ExecutionContext): AppCmdResult = failureValue.leftNel[Success].pure[Future]
     }
-    
+
     implicit class FailuresSyntax(failureValues: Failures) {
       import cats.syntax.either._
       import cats.syntax.applicative._
-      
+
       def asFailure(implicit ec: ExecutionContext): AppCmdResult = failureValues.asLeft[Success].pure[Future]
     }
   }

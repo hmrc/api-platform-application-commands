@@ -16,24 +16,25 @@
 
 package uk.gov.hmrc.apiplatform.modules.common.domain.services
 
-import uk.gov.hmrc.apiplatform.utils.HmrcSpec
-import play.api.libs.json.Json
 import cats.data.NonEmptyList
+
+import play.api.libs.json.Json
+import uk.gov.hmrc.apiplatform.utils.HmrcSpec
 
 class NonEmptyListFormattersSpec extends HmrcSpec {
   import NonEmptyListFormatters._
 
   "NonEmptyListFormatters" should {
     "read from json" in {
-      Json.parse("""[ "a", "b", "c" ]""").as[NonEmptyList[String]] shouldBe NonEmptyList.of("a","b","c")
+      Json.parse("""[ "a", "b", "c" ]""").as[NonEmptyList[String]] shouldBe NonEmptyList.of("a", "b", "c")
     }
-    
+
     "read as a failure" in {
       Json.parse("""[]""").asOpt[NonEmptyList[String]] shouldBe None
     }
 
     "write to json" in {
-      Json.toJson(NonEmptyList.of("a","b","c")).toString shouldBe """["a","b","c"]""" 
+      Json.toJson(NonEmptyList.of("a", "b", "c")).toString shouldBe """["a","b","c"]"""
     }
   }
 }

@@ -28,7 +28,7 @@ class DeleteApplicationByGatekeeperSpec extends ApplicationCommandBaseSpec {
 
     "write to json (as a command)" in {
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "gatekeeperUser" -> s"${aGatekeeperUser}",
+        "gatekeeperUser"          -> s"${aGatekeeperUser}",
         "requestedByEmailAddress" -> s"${requestedBy.text}",
         "reasons"                 -> s"$reasons",
         "timestamp"               -> s"$nowAsText",

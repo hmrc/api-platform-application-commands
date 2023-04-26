@@ -22,18 +22,18 @@ import uk.gov.hmrc.play.json.Union
 sealed trait CommandFailure
 
 object CommandFailures {
-  case object ApplicationNotFound             extends CommandFailure
+  case object ApplicationNotFound                    extends CommandFailure
   case class InsufficientPrivileges(details: String) extends CommandFailure
-  case object CannotRemoveLastAdmin           extends CommandFailure
-  case object ActorIsNotACollaboratorOnApp    extends CommandFailure
-  case object ClientSecretLimitExceeded       extends CommandFailure
-  case object CollaboratorDoesNotExistOnApp   extends CommandFailure
-  case object CollaboratorHasMismatchOnApp    extends CommandFailure
-  case object CollaboratorAlreadyExistsOnApp  extends CommandFailure
-  case object DuplicateSubscription           extends CommandFailure
-  case object SubscriptionNotAvailable        extends CommandFailure
-  case object NotSubscribedToApi              extends CommandFailure
-  case class GenericFailure(describe: String) extends CommandFailure
+  case object CannotRemoveLastAdmin                  extends CommandFailure
+  case object ActorIsNotACollaboratorOnApp           extends CommandFailure
+  case object ClientSecretLimitExceeded              extends CommandFailure
+  case object CollaboratorDoesNotExistOnApp          extends CommandFailure
+  case object CollaboratorHasMismatchOnApp           extends CommandFailure
+  case object CollaboratorAlreadyExistsOnApp         extends CommandFailure
+  case object DuplicateSubscription                  extends CommandFailure
+  case object SubscriptionNotAvailable               extends CommandFailure
+  case object NotSubscribedToApi                     extends CommandFailure
+  case class GenericFailure(describe: String)        extends CommandFailure
 
   def describe(failure: CommandFailure): String = {
     failure match {

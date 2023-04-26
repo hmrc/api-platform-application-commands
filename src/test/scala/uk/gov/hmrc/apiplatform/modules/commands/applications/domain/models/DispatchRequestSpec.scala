@@ -16,12 +16,12 @@
 
 package uk.gov.hmrc.apiplatform.modules.commands.applications.domain.models
 
+import play.api.libs.json.{JsString, Json}
+
 import uk.gov.hmrc.apiplatform.modules.common.domain.models.Actors
-import play.api.libs.json.Json
-import play.api.libs.json.JsString
 
 class DispatchRequestSpec extends ApplicationCommandBaseSpec {
-  
+
   "DispatchRequest" should {
     val cmd = ApplicationCommands.AddCollaborator(Actors.AppCollaborator(anActorEmail), aCollaborator, aTimestamp)
 
@@ -29,7 +29,7 @@ class DispatchRequestSpec extends ApplicationCommandBaseSpec {
       val request = DispatchRequest(cmd, Set(anActorEmail))
 
       Json.toJson[DispatchRequest](request) shouldBe Json.obj(
-        "command" -> Json.obj(
+        "command"                       -> Json.obj(
           "actor"        -> Json.obj(
             "email"     -> "bob@example.com",
             "actorType" -> "COLLABORATOR"
