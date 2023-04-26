@@ -25,7 +25,7 @@ class DeleteUnusedApplicationSpec extends ApplicationCommandBaseSpec {
 
     "write to json (as a command)" in {
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "jobId" -> "aJobId",
+        "jobId"            -> "aJobId",
         "timestamp"        -> s"$nowAsText",
         "authorisationKey" -> s"$anAuthorisationKey",
         "reasons"          -> s"$reasons",

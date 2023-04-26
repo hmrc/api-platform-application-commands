@@ -72,7 +72,7 @@ class CommandFailuresSpec extends HmrcSpec {
     "handle json for NotSubscribedToApi" in {
       testCommandFailure("""{"failureType":"NotSubscribedToApi"}""", CommandFailures.NotSubscribedToApi)
     }
-    
+
     "handle json for GenericFailure" in {
       testCommandFailure("""{"describe":"someError","failureType":"GenericFailure"}""", CommandFailures.GenericFailure("someError"))
     }

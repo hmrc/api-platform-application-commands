@@ -31,10 +31,10 @@ class ChangeProductionApplicationNameSpec extends ApplicationCommandBaseSpec {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
         "gatekeeperUser" -> s"${aGatekeeperUser}",
-        "instigator" -> s"${anInstigator.value}",
-        "timestamp"  -> s"$nowAsText",
-        "newName"    -> s"$newName",
-        "updateType" -> "changeProductionApplicationName"
+        "instigator"     -> s"${anInstigator.value}",
+        "timestamp"      -> s"$nowAsText",
+        "newName"        -> s"$newName",
+        "updateType"     -> "changeProductionApplicationName"
       )
     }
 

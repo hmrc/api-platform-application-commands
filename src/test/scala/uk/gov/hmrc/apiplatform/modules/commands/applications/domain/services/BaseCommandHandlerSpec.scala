@@ -17,16 +17,18 @@
 package uk.gov.hmrc.apiplatform.modules.commands.applications.domain.services
 
 import uk.gov.hmrc.apiplatform.utils.HmrcSpec
+
 import uk.gov.hmrc.apiplatform.modules.commands.applications.domain.models._
+
 class BaseCommandHandlerSpec extends HmrcSpec {
   import cats.implicits._
-  
+
   "BaseCommandHandler" when {
     object TestMe extends BaseCommandHandler[String]
     val failure: CommandFailure = CommandFailures.ApplicationNotFound
 
     "using cond-with-failure" should {
-      
+
       "on passing return unit" in {
         TestMe.cond(true, failure) shouldBe ().validNel[CommandFailure]
       }
@@ -37,7 +39,7 @@ class BaseCommandHandlerSpec extends HmrcSpec {
 
     "using cond-with-left" should {
       val left: String = "A message"
-      
+
       "on passing return unit" in {
         TestMe.cond(true, left) shouldBe ().validNel[CommandFailure]
       }
@@ -48,8 +50,8 @@ class BaseCommandHandlerSpec extends HmrcSpec {
 
     "using cond-with-left-and-right" should {
       val left: CommandFailure = CommandFailures.ApplicationNotFound
-      val right: String = "Yes"
-      
+      val right: String        = "Yes"
+
       "on passing return unit" in {
         TestMe.cond(true, left, right) shouldBe right.validNel[CommandFailure]
       }
@@ -71,7 +73,6 @@ class BaseCommandHandlerSpec extends HmrcSpec {
       }
     }
 
-    
     "mustBeDefined with error message" should {
       val errMsg = "Failed"
 

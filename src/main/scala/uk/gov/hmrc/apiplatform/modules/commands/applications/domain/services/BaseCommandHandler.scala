@@ -18,6 +18,7 @@ package uk.gov.hmrc.apiplatform.modules.commands.applications.domain.services
 
 import cats.data.Validated
 import cats.implicits._
+
 import uk.gov.hmrc.apiplatform.modules.commands.applications.domain.models._
 
 trait BaseCommandHandler[S] extends CommandHandlerTypes[S] {

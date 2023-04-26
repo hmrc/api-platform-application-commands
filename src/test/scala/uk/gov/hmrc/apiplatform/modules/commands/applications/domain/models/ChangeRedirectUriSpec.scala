@@ -17,6 +17,7 @@
 package uk.gov.hmrc.apiplatform.modules.commands.applications.domain.models
 
 import play.api.libs.json.Json
+
 import uk.gov.hmrc.apiplatform.modules.common.domain.models._
 
 class ChangeRedirectUriSpec extends ApplicationCommandBaseSpec {
@@ -27,14 +28,14 @@ class ChangeRedirectUriSpec extends ApplicationCommandBaseSpec {
     "write to json (as a command)" in {
 
       Json.toJson[ApplicationCommand](cmd) shouldBe Json.obj(
-        "actor" -> Json.obj(
-          "email" -> "bob@example.com",
+        "actor"                -> Json.obj(
+          "email"     -> "bob@example.com",
           "actorType" -> "COLLABORATOR"
         ),
         "redirectUriToReplace" -> s"${redirectUriToChange.value.uri}",
-        "redirectUri" -> s"${redirectUri.value.uri}",
-        "timestamp" -> s"$nowAsText",
-        "updateType" -> "changeRedirectUri"
+        "redirectUri"          -> s"${redirectUri.value.uri}",
+        "timestamp"            -> s"$nowAsText",
+        "updateType"           -> "changeRedirectUri"
       )
     }
 
